@@ -6,9 +6,14 @@ import Daftar from './components/Daftar';
 import Detail from './components/Detail';
 import Peta from './components/Peta';
 import Tentang from './components/Tentang';
+import Statistik from './components/Statistik';
+import Galeri from './components/Galeri';
+import Berita from './components/Berita';
+import FAQ from './components/FAQ';
+import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
@@ -84,8 +89,36 @@ function App() {
               </div>
             </section>
 
-            {/* Info Section */}
+            {/* Quick Features */}
             <section className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-3">Jelajahi Lebih Lanjut</h2>
+                  <p className="text-gray-600">Fitur-fitur yang tersedia di SICABA</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { icon: '📊', title: 'Statistik', desc: 'Data dan grafik cagar budaya', page: 'statistik', color: 'from-blue-50 to-indigo-50 border-blue-200' },
+                    { icon: '📸', title: 'Galeri', desc: 'Koleksi visual cagar budaya', page: 'galeri', color: 'from-purple-50 to-pink-50 border-purple-200' },
+                    { icon: '📰', title: 'Berita', desc: 'Artikel & informasi terbaru', page: 'berita', color: 'from-amber-50 to-orange-50 border-amber-200' },
+                    { icon: '🗺️', title: 'Peta', desc: 'Lokasi interaktif', page: 'peta', color: 'from-emerald-50 to-teal-50 border-emerald-200' },
+                  ].map((feature, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleNavigate(feature.page)}
+                      className={`bg-gradient-to-br ${feature.color} rounded-xl p-6 border cursor-pointer hover:shadow-lg transition-all transform hover:-translate-y-1`}
+                    >
+                      <span className="text-4xl block mb-3">{feature.icon}</span>
+                      <h3 className="font-bold text-gray-800 mb-1">{feature.title}</h3>
+                      <p className="text-sm text-gray-600">{feature.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Info Section */}
+            <section className="py-16 bg-gray-50">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                   <div>
@@ -171,6 +204,14 @@ function App() {
         return <Peta onSelectItem={handleSelectItem} />;
       case 'tentang':
         return <Tentang />;
+      case 'statistik':
+        return <Statistik />;
+      case 'galeri':
+        return <Galeri />;
+      case 'berita':
+        return <Berita />;
+      case 'faq':
+        return <FAQ />;
       default:
         return <Hero onNavigate={handleNavigate} />;
     }
@@ -182,7 +223,8 @@ function App() {
       <main className="flex-1">
         {renderPage()}
       </main>
-      <Footer />
+      <Footer onNavigate={handleNavigate} />
+      <ScrollToTop />
     </div>
   );
 }

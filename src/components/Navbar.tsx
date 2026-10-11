@@ -10,8 +10,12 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
 
   const navItems = [
     { id: 'beranda', label: 'Beranda' },
-    { id: 'daftar', label: 'Daftar Cagar Budaya' },
-    { id: 'peta', label: 'Peta Lokasi' },
+    { id: 'daftar', label: 'Cagar Budaya' },
+    { id: 'peta', label: 'Peta' },
+    { id: 'galeri', label: 'Galeri' },
+    { id: 'statistik', label: 'Statistik' },
+    { id: 'berita', label: 'Berita' },
+    { id: 'faq', label: 'FAQ' },
     { id: 'tentang', label: 'Tentang' },
   ];
 
@@ -30,13 +34,13 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <div className="flex items-center space-x-1">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                     currentPage === item.id
                       ? 'bg-emerald-600 text-white shadow-inner'
                       : 'text-emerald-100 hover:bg-emerald-700 hover:text-white'
@@ -49,7 +53,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-emerald-200 hover:text-white hover:bg-emerald-700 focus:outline-none"
@@ -68,7 +72,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-emerald-800 border-t border-emerald-700">
+        <div className="lg:hidden bg-emerald-800 border-t border-emerald-700">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
               <button

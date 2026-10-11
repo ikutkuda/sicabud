@@ -163,7 +163,7 @@ http://localhost/sicaba/php-app/
 
 ### Administrator (Agus Wirabudiman)
 - **Email**: agus.wirabudiman@gmail.com
-- **Password**: admin2024
+- **Password**: @GunungJantra1476
 - **Akses**: Full system access
 
 ### Manager

@@ -100,7 +100,7 @@ export const defaultUsers: User[] = [
     id: 2,
     nama: 'Agus Wirabudiman',
     email: 'agus.wirabudiman@gmail.com',
-    password: 'admin2024',
+    password: '@GunungJantra1476',
     role: 'admin',
     avatar: '👑',
     tanggalDaftar: '2024-01-01',

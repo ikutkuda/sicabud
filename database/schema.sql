@@ -447,7 +447,7 @@ INSERT INTO kategori_cagar_budaya (nama_kategori, ikon, deskripsi) VALUES
 -- Untuk demo, password disimpan plain text. Di production gunakan bcrypt.
 INSERT INTO users (nama, email, password, role, avatar, phone, alamat, status, status_akun, tanggal_daftar, last_login) VALUES
 ('Admin SICABA', 'admin@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'admin', '👑', '081234567890', 'Jl. Ir. H. Juanda No. 1, Tasikmalaya', 'aktif', 'approved', '2024-01-01', '2024-01-15 08:30:00'),
-('Agus Wirabudiman', 'agus.wirabudiman@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'admin', '👑', '081234567890', 'Tasikmalaya, Jawa Barat', 'aktif', 'approved', '2024-01-01', '2024-01-15 09:00:00'),
+('Agus Wirabudiman', 'agus.wirabudiman@gmail.com', '@GunungJantra1476', 'admin', '👑', '081234567890', 'Tasikmalaya, Jawa Barat', 'aktif', 'approved', '2024-01-01', '2024-01-15 09:00:00'),
 ('Budi Santoso', 'manager@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'manager', '📋', '081234567891', 'Jl. Sukapura No. 10, Tasikmalaya', 'aktif', 'approved', '2024-01-05', '2024-01-14 14:20:00'),
 ('Siti Nurhaliza', 'member@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'member', '👤', '081234567892', 'Jl. Merdeka No. 5, Tasikmalaya', 'aktif', 'approved', '2024-01-10', '2024-01-13 09:15:00'),
 ('Ahmad Rizki', 'ahmad@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'member', '👤', '081234567893', 'Jl. Veteran No. 8, Tasikmalaya', 'aktif', 'approved', '2024-01-12', '2024-01-12 16:45:00'),

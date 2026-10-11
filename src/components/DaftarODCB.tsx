@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { odcbData, statusODCBColors, statusODCBIcons, statusODCBLabels, ODCB, StatusODCB } from '../data/odcb';
+import { odcbData, statusODCBColors, statusODCBIcons, statusODCBLabels, jenisODCBIcons, ODCB, StatusODCB } from '../data/odcb';
 
 interface DaftarODCBProps {
   onNavigate: (page: string) => void;
@@ -133,7 +133,7 @@ export default function DaftarODCB({ onNavigate, onOpenForm }: DaftarODCBProps) 
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-bold text-gray-800 truncate">{odcb.namaODCB}</h3>
-                        <p className="text-sm text-gray-500">{odcb.jenisODCB} • {odcb.lokasi}</p>
+                        <p className="text-sm text-gray-500">{jenisODCBIcons[odcb.jenisODCB]} {odcb.jenisODCB} • {odcb.lokasi}</p>
                         <div className="flex items-center gap-3 mt-2">
                           <span className="text-xs text-gray-400">📅 {odcb.tanggalPengajuan}</span>
                           <span className="text-xs text-gray-400">👤 {odcb.pendaftarNama}</span>
@@ -201,7 +201,7 @@ export default function DaftarODCB({ onNavigate, onOpenForm }: DaftarODCBProps) 
                   <h3 className="font-bold text-gray-800 mb-3">Informasi ODCB</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                     <div><span className="text-gray-500">Nama:</span> <span className="font-medium">{selectedODCB.namaODCB}</span></div>
-                    <div><span className="text-gray-500">Jenis:</span> <span className="font-medium">{selectedODCB.jenisODCB}</span></div>
+                    <div><span className="text-gray-500">Jenis:</span> <span className="font-medium">{jenisODCBIcons[selectedODCB.jenisODCB]} {selectedODCB.jenisODCB}</span></div>
                     <div><span className="text-gray-500">Lokasi:</span> <span className="font-medium">{selectedODCB.lokasi}</span></div>
                     <div><span className="text-gray-500">Kecamatan:</span> <span className="font-medium">{selectedODCB.kecamatan}</span></div>
                     <div><span className="text-gray-500">Perkiraan Umur:</span> <span className="font-medium">{selectedODCB.perkiraanUmur}</span></div>

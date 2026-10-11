@@ -1,11 +1,14 @@
 export type StatusODCB = 'Diajukan' | 'Diperiksa' | 'Direvisi' | 'Ditolak' | 'Disetujui';
 export type JenisIdentitas = 'KTP' | 'SIM';
 
+// Jenis ODCB sesuai UU No. 11 Tahun 2010
+export type JenisODCB = 'Benda' | 'Bangunan' | 'Struktur' | 'Situs' | 'Kawasan';
+
 export interface ODCB {
   id: number;
   // Data ODCB
   namaODCB: string;
-  jenisODCB: string;
+  jenisODCB: JenisODCB;
   lokasi: string;
   kecamatan: string;
   deskripsi: string;
@@ -45,6 +48,75 @@ export interface FileAttachment {
   deskripsi: string;
 }
 
+// Master data Jenis ODCB sesuai UU No. 11 Tahun 2010
+export interface JenisODCBInfo {
+  nama: JenisODCB;
+  ikon: string;
+  deskripsi: string;
+  definisiUU: string;
+  contoh: string[];
+  warna: string;
+}
+
+export const jenisODCBList: JenisODCBInfo[] = [
+  {
+    nama: 'Benda',
+    ikon: '🏺',
+    deskripsi: 'Benda alam/buatan manusia berusia ≥50 tahun',
+    definisiUU: 'Benda alam dan/atau benda buatan manusia, baik yang bergerak maupun yang tidak bergerak, yang memiliki usia sekurang-kurangnya 50 tahun.',
+    contoh: ['Arca', 'Prasasti', 'Keris', 'Mata Uang Kuno', 'Gerabah', 'Perhiasan Kuno'],
+    warna: 'from-amber-400 to-orange-500'
+  },
+  {
+    nama: 'Bangunan',
+    ikon: '🏛️',
+    deskripsi: 'Susunan binaan untuk mewadahi kegiatan manusia',
+    definisiUU: 'Susunan binaan yang terbuat dari benda alam dan/atau buatan manusia untuk mewadahi kegiatan manusia, baik di atas tanah maupun di atas air.',
+    contoh: ['Masjid', 'Gereja', 'Gedung', 'Rumah Adat', 'Museum', 'Stasiun'],
+    warna: 'from-blue-400 to-indigo-500'
+  },
+  {
+    nama: 'Struktur',
+    ikon: '🏗️',
+    deskripsi: 'Susunan binaan untuk infrastruktur',
+    definisiUU: 'Susunan binaan yang terbuat dari benda alam dan/atau buatan manusia untuk mendukung kegiatan konstruksi atau infrastruktur.',
+    contoh: ['Jembatan Kuno', 'Benteng', 'Tembok Pertahanan', 'Sumur Kuno', 'Saluran Air', 'Menara'],
+    warna: 'from-purple-400 to-pink-500'
+  },
+  {
+    nama: 'Situs',
+    ikon: '🗿',
+    deskripsi: 'Lokasi yang mengandung CB sebagai bukti masa lalu',
+    definisiUU: 'Lokasi di darat dan/atau di air yang mengandung Benda, Bangunan, dan/atau Struktur Cagar Budaya sebagai hasil kegiatan manusia atau bukti kejadian pada masa lalu.',
+    contoh: ['Situs Megalitikum', 'Situs Arkeologi', 'Situs Prasejarah', 'Situs Kerajaan Kuno'],
+    warna: 'from-emerald-400 to-teal-500'
+  },
+  {
+    nama: 'Kawasan',
+    ikon: '🌏',
+    deskripsi: 'Area dengan ≥2 Situs CB berdekatan',
+    definisiUU: 'Area di darat dan/atau di air yang memiliki dua Situs Cagar Budaya atau lebih yang letaknya berdekatan dan memperlihatkan ciri tata ruang yang khas.',
+    contoh: ['Kawasan Kota Tua', 'Kawasan Pusat Kerajaan', 'Kawasan Pelabuhan Kuno', 'Kawasan Adat'],
+    warna: 'from-rose-400 to-red-500'
+  }
+];
+
+export const jenisODCBIcons: Record<JenisODCB, string> = {
+  'Benda': '🏺',
+  'Bangunan': '🏛️',
+  'Struktur': '🏗️',
+  'Situs': '🗿',
+  'Kawasan': '🌏',
+};
+
+export const jenisODCBColors: Record<JenisODCB, string> = {
+  'Benda': 'bg-amber-100 text-amber-700 border-amber-300',
+  'Bangunan': 'bg-blue-100 text-blue-700 border-blue-300',
+  'Struktur': 'bg-purple-100 text-purple-700 border-purple-300',
+  'Situs': 'bg-emerald-100 text-emerald-700 border-emerald-300',
+  'Kawasan': 'bg-rose-100 text-rose-700 border-rose-300',
+};
+
 export const statusODCBLabels: Record<StatusODCB, string> = {
   'Diajukan': 'Diajukan',
   'Diperiksa': 'Sedang Diperiksa',
@@ -68,15 +140,6 @@ export const statusODCBIcons: Record<StatusODCB, string> = {
   'Ditolak': '❌',
   'Disetujui': '✅',
 };
-
-export const jenisODCBList = [
-  'Bangunan',
-  'Struktur',
-  'Situs Arkeologi',
-  'Benda Budaya',
-  'Kawasan Bersejarah',
-  'Lainnya'
-];
 
 export const kondisiList = [
   'Baik',
@@ -197,7 +260,7 @@ export const odcbData: ODCB[] = [
   {
     id: 3,
     namaODCB: 'Pohon Beringin Tua di Alun-alun',
-    jenisODCB: 'Benda Budaya',
+    jenisODCB: 'Benda',
     lokasi: 'Alun-alun Kota Tasikmalaya',
     kecamatan: 'Tawang',
     deskripsi: 'Pohon beringin tua yang diperkirakan telah ada sejak masa kolonial. Menjadi simbol sejarah kota.',
@@ -238,7 +301,7 @@ export const odcbData: ODCB[] = [
   {
     id: 4,
     namaODCB: 'Batu Prasasti di Perbukitan',
-    jenisODCB: 'Situs Arkeologi',
+    jenisODCB: 'Situs',
     lokasi: 'Perbukitan Cipari',
     kecamatan: 'Cigalon',
     deskripsi: 'Batu dengan ukiran yang diduga merupakan prasasti kuno. Ditemukan oleh warga setempat.',

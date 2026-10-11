@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { jenisODCBList, kondisiList, ODCB, FileAttachment } from '../data/odcb';
+import { jenisODCBList, jenisODCBIcons, kondisiList, ODCB, FileAttachment, JenisODCB } from '../data/odcb';
 
 interface FormODCBProps {
   onSubmit: (data: ODCB) => void;
@@ -12,7 +12,7 @@ export default function FormODCB({ onSubmit, onCancel }: FormODCBProps) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     namaODCB: '',
-    jenisODCB: '',
+    jenisODCB: '' as JenisODCB | '',
     lokasi: '',
     kecamatan: '',
     deskripsi: '',
@@ -115,7 +115,7 @@ export default function FormODCB({ onSubmit, onCancel }: FormODCBProps) {
     const newODCB: ODCB = {
       id: Date.now(),
       namaODCB: formData.namaODCB,
-      jenisODCB: formData.jenisODCB,
+      jenisODCB: formData.jenisODCB as JenisODCB,
       lokasi: formData.lokasi,
       kecamatan: formData.kecamatan,
       deskripsi: formData.deskripsi,
@@ -193,34 +193,59 @@ export default function FormODCB({ onSubmit, onCancel }: FormODCBProps) {
                 {errors.namaODCB && <p className="text-red-500 text-xs mt-1">{errors.namaODCB}</p>}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Jenis ODCB *</label>
-                  <select
-                    name="jenisODCB"
-                    value={formData.jenisODCB}
-                    onChange={handleChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none ${errors.jenisODCB ? 'border-red-500' : 'border-gray-200'}`}
-                  >
-                    <option value="">Pilih Jenis</option>
-                    {jenisODCBList.map(j => <option key={j} value={j}>{j}</option>)}
-                  </select>
-                  {errors.jenisODCB && <p className="text-red-500 text-xs mt-1">{errors.jenisODCB}</p>}
+              {/* Jenis ODCB - Card Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Jenis ODCB * <span className="text-xs text-gray-500">(Sesuai UU No. 11 Tahun 2010)</span>
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  {jenisODCBList.map((jenis) => (
+                    <button
+                      key={jenis.nama}
+                      type="button"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, jenisODCB: jenis.nama }));
+                        if (errors.jenisODCB) {
+                          setErrors(prev => ({ ...prev, jenisODCB: '' }));
+                        }
+                      }}
+                      className={`p-4 rounded-xl border-2 transition-all text-center ${
+                        formData.jenisODCB === jenis.nama
+                          ? 'border-emerald-500 bg-emerald-50 shadow-md'
+                          : 'border-gray-200 hover:border-emerald-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      <span className="text-3xl block mb-2">{jenis.ikon}</span>
+                      <p className="font-bold text-sm text-gray-800">{jenis.nama}</p>
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{jenis.deskripsi}</p>
+                    </button>
+                  ))}
                 </div>
+                {errors.jenisODCB && <p className="text-red-500 text-xs mt-2">{errors.jenisODCB}</p>}
+                
+                {/* Info box */}
+                {formData.jenisODCB && (
+                  <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-xs text-blue-800">
+                      <strong>💡 Definisi:</strong> {jenisODCBList.find(j => j.nama === formData.jenisODCB)?.definisiUU}
+                    </p>
+                  </div>
+                )}
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Kondisi *</label>
-                  <select
-                    name="kondisi"
-                    value={formData.kondisi}
-                    onChange={handleChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none ${errors.kondisi ? 'border-red-500' : 'border-gray-200'}`}
-                  >
-                    <option value="">Pilih Kondisi</option>
-                    {kondisiList.map(k => <option key={k} value={k}>{k}</option>)}
-                  </select>
-                  {errors.kondisi && <p className="text-red-500 text-xs mt-1">{errors.kondisi}</p>}
-                </div>
+              {/* Kondisi */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kondisi *</label>
+                <select
+                  name="kondisi"
+                  value={formData.kondisi}
+                  onChange={handleChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none ${errors.kondisi ? 'border-red-500' : 'border-gray-200'}`}
+                >
+                  <option value="">Pilih Kondisi</option>
+                  {kondisiList.map(k => <option key={k} value={k}>{k}</option>)}
+                </select>
+                {errors.kondisi && <p className="text-red-500 text-xs mt-1">{errors.kondisi}</p>}
               </div>
 
               <div>

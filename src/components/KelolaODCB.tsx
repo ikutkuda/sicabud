@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { odcbData, statusODCBColors, statusODCBIcons, statusODCBLabels, ODCB, StatusODCB } from '../data/odcb';
+import { odcbData, statusODCBColors, statusODCBIcons, statusODCBLabels, jenisODCBIcons, ODCB, StatusODCB } from '../data/odcb';
 
 interface KelolaODCBProps {
   onNavigate: (page: string) => void;
@@ -121,7 +121,7 @@ export default function KelolaODCB({ onNavigate }: KelolaODCBProps) {
                   <tr key={odcb.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3">
                       <p className="font-medium text-gray-800 text-sm">{odcb.namaODCB}</p>
-                      <p className="text-xs text-gray-500">{odcb.jenisODCB} • {odcb.kecamatan}</p>
+                      <p className="text-xs text-gray-500">{jenisODCBIcons[odcb.jenisODCB]} {odcb.jenisODCB} • {odcb.kecamatan}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="text-sm text-gray-800">{odcb.pendaftarNama}</p>
@@ -180,7 +180,7 @@ export default function KelolaODCB({ onNavigate }: KelolaODCBProps) {
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                       <div><span className="text-gray-500">Nama:</span> <span className="font-medium">{selectedODCB.namaODCB}</span></div>
-                      <div><span className="text-gray-500">Jenis:</span> <span className="font-medium">{selectedODCB.jenisODCB}</span></div>
+                      <div><span className="text-gray-500">Jenis:</span> <span className="font-medium">{jenisODCBIcons[selectedODCB.jenisODCB]} {selectedODCB.jenisODCB}</span></div>
                       <div><span className="text-gray-500">Lokasi:</span> <span className="font-medium">{selectedODCB.lokasi}</span></div>
                       <div><span className="text-gray-500">Kecamatan:</span> <span className="font-medium">{selectedODCB.kecamatan}</span></div>
                       <div><span className="text-gray-500">Umur:</span> <span className="font-medium">{selectedODCB.perkiraanUmur}</span></div>

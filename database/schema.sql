@@ -66,7 +66,20 @@ CREATE TABLE bukti_pembayaran (
 ) ENGINE=InnoDB;
 
 -- ============================================================================
--- 3. TABEL KATEGORI_CAGAR_BUDAYA
+-- 3. TABEL JENIS_CAGAR_BUDAYA (Sesuai UU No. 11 Tahun 2010)
+-- ============================================================================
+CREATE TABLE jenis_cagar_budaya (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_jenis ENUM('Benda', 'Bangunan', 'Struktur', 'Situs', 'Kawasan') NOT NULL UNIQUE,
+    ikon VARCHAR(10) DEFAULT '🏛️',
+    deskripsi TEXT DEFAULT NULL,
+    definisi_uu TEXT DEFAULT NULL COMMENT 'Definisi menurut UU No. 11 Tahun 2010',
+    contoh TEXT DEFAULT NULL COMMENT 'Contoh-contoh dalam format JSON array',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- ============================================================================
+-- 4. TABEL KATEGORI_CAGAR_BUDAYA
 -- ============================================================================
 CREATE TABLE kategori_cagar_budaya (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -77,11 +90,12 @@ CREATE TABLE kategori_cagar_budaya (
 ) ENGINE=InnoDB;
 
 -- ============================================================================
--- 4. TABEL CAGAR_BUDAYA (Data Utama Cagar Budaya)
+-- 5. TABEL CAGAR_BUDAYA (Data Utama Cagar Budaya)
 -- ============================================================================
 CREATE TABLE cagar_budaya (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(200) NOT NULL,
+    jenis_id INT NOT NULL COMMENT 'Jenis CB sesuai UU No. 11/2010: Benda/Bangunan/Struktur/Situs/Kawasan',
     kategori_id INT NOT NULL,
     lokasi TEXT NOT NULL,
     kecamatan VARCHAR(50) NOT NULL,
@@ -106,6 +120,7 @@ CREATE TABLE cagar_budaya (
     INDEX idx_cb_tahun (tahun_berdiri),
     INDEX idx_cb_koordinat (latitude, longitude),
     
+    CONSTRAINT fk_cb_jenis FOREIGN KEY (jenis_id) REFERENCES jenis_cagar_budaya(id) ON DELETE RESTRICT,
     CONSTRAINT fk_cb_kategori FOREIGN KEY (kategori_id) REFERENCES kategori_cagar_budaya(id) ON DELETE RESTRICT,
     CONSTRAINT fk_cb_created_by FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
     CONSTRAINT fk_cb_updated_by FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL
@@ -400,6 +415,24 @@ CREATE TABLE pengaturan_sistem (
 -- INSERT DATA SAMPLE
 -- ============================================================================
 
+-- Jenis Cagar Budaya (Sesuai UU No. 11 Tahun 2010)
+INSERT INTO jenis_cagar_budaya (nama_jenis, ikon, deskripsi, definisi_uu, contoh) VALUES
+('Benda', '🏺', 'Benda Cagar Budaya', 
+ 'Benda alam dan/atau benda buatan manusia, baik yang bergerak maupun yang tidak bergerak, yang berwujud kesatuan atau kelompok, atau bagian-bagiannya atau sisa-sisanya, yang memiliki usia sekurang-kurangnya 50 (lima puluh) tahun, serta dianggap memiliki nilai penting bagi sejarah, ilmu pengetahuan, dan kebudayaan.',
+ '["Arca","Prasasti","Keris","Mata Uang Kuno","Gerabah","Perhiasan Kuno"]'),
+('Bangunan', '🏛️', 'Bangunan Cagar Budaya',
+ 'Susunan binaan yang terbuat dari benda alam dan/atau benda buatan manusia untuk mewadahi kegiatan manusia, baik yang didirikan di atas tanah maupun di atas air.',
+ '["Masjid","Gereja","Gedung Pemerintahan","Rumah Adat","Museum","Stasiun"]'),
+('Struktur', '🏗️', 'Struktur Cagar Budaya',
+ 'Susunan binaan yang terbuat dari benda alam dan/atau benda buatan manusia untuk mendukung kegiatan konstruksi atau infrastruktur, yang tidak mewadahi kegiatan manusia secara langsung.',
+ '["Jembatan Kuno","Benteng","Tembok Pertahanan","Sumur Kuno","Saluran Air","Menara"]'),
+('Situs', '🗿', 'Situs Cagar Budaya',
+ 'Lokasi yang berada di darat dan/atau di air yang mengandung Benda Cagar Budaya, Bangunan Cagar Budaya, dan/atau Struktur Cagar Budaya sebagai hasil kegiatan manusia atau bukti kejadian pada masa lalu.',
+ '["Situs Megalitikum","Situs Arkeologi","Situs Prasejarah","Situs Kerajaan Kuno","Situs Pertempuran"]'),
+('Kawasan', '🌏', 'Kawasan Cagar Budaya',
+ 'Area di darat dan/atau di air yang memiliki dua Situs Cagar Budaya atau lebih yang letaknya berdekatan dan memperlihatkan ciri tata ruang yang khas.',
+ '["Kawasan Kota Tua","Kawasan Pusat Kerajaan","Kawasan Pelabuhan Kuno","Kawasan Pemukiman Adat"]');
+
 -- Kategori Cagar Budaya
 INSERT INTO kategori_cagar_budaya (nama_kategori, ikon, deskripsi) VALUES
 ('Bangunan Keagamaan', '🕌', 'Masjid, gereja, pura, vihara, dan tempat ibadah lainnya'),
@@ -438,18 +471,19 @@ INSERT INTO bukti_pembayaran (user_id, nama_file, path_file, tipe_file, ukuran_f
 (6, 'bukti_transfer_rudi.jpg', '/uploads/bukti/rudi.jpg', 'jpg', '1.3 MB', 110000.00, '445301021768537', '2024-01-03', 'pending'),
 (8, 'bukti_transfer_hendra.jpg', '/uploads/bukti/hendra.jpg', 'jpg', '890 KB', 110000.00, '445301021768537', '2024-02-10', 'invalid');
 
--- Cagar Budaya
-INSERT INTO cagar_budaya (nama, kategori_id, lokasi, kecamatan, tahun_berdiri, deskripsi, sejarah, arsitektur, status_penetapan, nomor_sk, tanggal_penetapan, latitude, longitude, gambar, created_by) VALUES
-('Masjid Agung Kota Tasikmalaya', 1, 'Jl. Masjid Agung, Kahuripan, Tawang', 'Tawang', '1832', 'Masjid tertua dan terbesar di Kota Tasikmalaya dengan nilai sejarah tinggi sebagai pusat penyebaran agama Islam.', 'Dibangun tahun 1832 oleh Bupati Sukapura ke-7, Wiradadaha VIII. Telah mengalami beberapa renovasi namun tetap mempertahankan arsitektur asli.', 'Arsitektur memadukan gaya tradisional Sunda dengan pengaruh Islam. Atap tumpang tiga tingkat menjadi ciri khas utama.', 'Nasional', 'SK/Mendikbud/2015/042', '2015-03-15', -7.3274000, 108.2217000, 'mosque', 1),
-('Gedung Kesenian Kota Tasikmalaya', 2, 'Jl. Sukapura, Yudanagara, Cihideung', 'Cihideung', '1920', 'Bangunan peninggalan kolonial Belanda yang digunakan sebagai pusat kegiatan seni dan budaya.', 'Dibangun sekitar tahun 1920 pada masa kolonial Belanda. Setelah kemerdekaan dialihfungsikan sebagai pusat kesenian.', 'Bangunan bergaya Art Deco dengan pilar-pilar besar, jendela tinggi dengan kaca patri, dan atap tinggi.', 'Kota/Kabupaten', 'SK/Walikota/2018/015', '2018-06-20', -7.3295000, 108.2195000, 'building', 1),
-('Situs Batu Calung', 6, 'Desa Sukarasa, Sukaratu', 'Sukaratu', 'Abad ke-8', 'Situs arkeologi dengan batu-batu megalitikum peninggalan zaman prasejarah.', 'Ditemukan awal abad ke-20 dan diteliti arkeolog Belanda. Batu diperkirakan berasal dari abad ke-8 Masehi.', 'Terdiri dari batu-batu besar tersusun teratur, termasuk menhir, dolmen, dan batu dakon.', 'Nasional', 'SK/Mendikbud/2013/078', '2013-09-08', -7.3450000, 108.2350000, 'archaeology', 1),
-('Kantor Bupati Lama Tasikmalaya', 3, 'Jl. Sukapura No. 1, Cihideung', 'Cihideung', '1860', 'Bangunan bersejarah yang pernah menjadi pusat pemerintahan Kabupaten Tasikmalaya.', 'Dibangun tahun 1860 sebagai pusat pemerintahan Kabupaten Sukapura.', 'Bangunan bergaya Indische Empire Style dengan pilar besar, beranda luas, dan atap tinggi.', 'Provinsi', 'SK/Gubernur_Jabar/2019/033', '2019-04-12', -7.3280000, 108.2200000, 'government', 1),
-('Stasiun Tasikmalaya', 4, 'Jl. Stasiun, Cihideung', 'Cihideung', '1916', 'Stasiun kereta api peninggalan kolonial Belanda untuk jalur kereta api Priangan.', 'Dibangun tahun 1916 sebagai bagian dari jalur Staatsspoorwegen.', 'Bangunan bergaya kolonial Belanda dengan atap pelana lebar dan kanopi besi tempa khas.', 'Kota/Kabupaten', 'SK/Walikota/2017/022', '2017-08-05', -7.3310000, 108.2240000, 'station', 1),
-('Situs Cipari', 6, 'Desa Cipari, Cigalon', 'Cigalon', 'Abad ke-8', 'Kompleks situs megalitikum di perbukitan dengan menhir, dolmen, dan batu dakon.', 'Diteliti sejak masa kolonial. Diperkirakan sebagai tempat pemujaan dan pemakaman prasejarah.', 'Kompleks batu megalitikum tersusun berteras dengan menhir setinggi 2 meter.', 'Nasional', 'SK/Mendikbud/2010/015', '2010-05-22', -7.3800000, 108.2600000, 'megalithic', 1),
-('Gedung Gereja GPIB Immanuel', 1, 'Jl. Gereja, Kahuripan, Tawang', 'Tawang', '1905', 'Gereja tertua di Kota Tasikmalaya, dibangun pada masa kolonial Belanda.', 'Dibangun tahun 1905 untuk melayani jemaat Protestan.', 'Bangunan bergaya Gothic Revival dengan menara lonceng dan kaca patri.', 'Provinsi', 'SK/Gubernur_Jabar/2020/045', '2020-10-18', -7.3265000, 108.2210000, 'church', 1),
-('Museum Kota Tasikmalaya', 7, 'Jl. Ir. H. Juanda, Cihideung', 'Cihideung', '1985', 'Museum yang menyimpan koleksi benda bersejarah dan budaya Tasikmalaya.', 'Didirikan tahun 1985 untuk melestarikan warisan budaya Tasikmalaya.', 'Bangunan modern dengan elemen tradisional Sunda dan ruang pamer luas.', 'Kota/Kabupaten', 'SK/Walikota/2016/008', '2016-02-03', -7.3290000, 108.2230000, 'museum', 1),
-('Situs Karangkamulyan', 6, 'Desa Karangkamulyan, Cijeungjing', 'Cijeungjing', 'Abad ke-12', 'Kompleks situs bersejarah berkaitan dengan Kerajaan Galuh.', 'Dipercaya sebagai bekas pusat Kerajaan Galuh abad ke-7 hingga ke-12.', 'Struktur batu, candi kecil, batu bertulis, dan situs pemandian kuno.', 'Nasional', 'SK/Mendikbud/2012/067', '2012-07-10', -7.3600000, 108.2800000, 'ruins', 1),
-('Rumah Adat Sunda (Imah Julang Ngapak)', 5, 'Kampung Adat, Cihideung', 'Cihideung', 'Abad ke-17', 'Contoh arsitektur tradisional Sunda yang masih terjaga keasliannya.', 'Peninggalan keluarga bangsawan Sukapura yang dijaga beberapa generasi.', 'Atap berbentuk seperti burung julang mengapak, terbuat dari ijuk, struktur kayu dan bambu.', 'Belum Ditetapkan', NULL, NULL, -7.3300000, 108.2180000, 'traditional', 1);
+-- Cagar Budaya (dengan jenis_id)
+-- jenis_id: 1=Benda, 2=Bangunan, 3=Struktur, 4=Situs, 5=Kawasan
+INSERT INTO cagar_budaya (nama, jenis_id, kategori_id, lokasi, kecamatan, tahun_berdiri, deskripsi, sejarah, arsitektur, status_penetapan, nomor_sk, tanggal_penetapan, latitude, longitude, gambar, created_by) VALUES
+('Masjid Agung Kota Tasikmalaya', 2, 1, 'Jl. Masjid Agung, Kahuripan, Tawang', 'Tawang', '1832', 'Masjid tertua dan terbesar di Kota Tasikmalaya dengan nilai sejarah tinggi sebagai pusat penyebaran agama Islam.', 'Dibangun tahun 1832 oleh Bupati Sukapura ke-7, Wiradadaha VIII. Telah mengalami beberapa renovasi namun tetap mempertahankan arsitektur asli.', 'Arsitektur memadukan gaya tradisional Sunda dengan pengaruh Islam. Atap tumpang tiga tingkat menjadi ciri khas utama.', 'Nasional', 'SK/Mendikbud/2015/042', '2015-03-15', -7.3274000, 108.2217000, 'mosque', 1),
+('Gedung Kesenian Kota Tasikmalaya', 2, 2, 'Jl. Sukapura, Yudanagara, Cihideung', 'Cihideung', '1920', 'Bangunan peninggalan kolonial Belanda yang digunakan sebagai pusat kegiatan seni dan budaya.', 'Dibangun sekitar tahun 1920 pada masa kolonial Belanda. Setelah kemerdekaan dialihfungsikan sebagai pusat kesenian.', 'Bangunan bergaya Art Deco dengan pilar-pilar besar, jendela tinggi dengan kaca patri, dan atap tinggi.', 'Kota/Kabupaten', 'SK/Walikota/2018/015', '2018-06-20', -7.3295000, 108.2195000, 'building', 1),
+('Situs Batu Calung', 4, 6, 'Desa Sukarasa, Sukaratu', 'Sukaratu', 'Abad ke-8', 'Situs arkeologi dengan batu-batu megalitikum peninggalan zaman prasejarah.', 'Ditemukan awal abad ke-20 dan diteliti arkeolog Belanda. Batu diperkirakan berasal dari abad ke-8 Masehi.', 'Terdiri dari batu-batu besar tersusun teratur, termasuk menhir, dolmen, dan batu dakon.', 'Nasional', 'SK/Mendikbud/2013/078', '2013-09-08', -7.3450000, 108.2350000, 'archaeology', 1),
+('Kantor Bupati Lama Tasikmalaya', 2, 3, 'Jl. Sukapura No. 1, Cihideung', 'Cihideung', '1860', 'Bangunan bersejarah yang pernah menjadi pusat pemerintahan Kabupaten Tasikmalaya.', 'Dibangun tahun 1860 sebagai pusat pemerintahan Kabupaten Sukapura.', 'Bangunan bergaya Indische Empire Style dengan pilar besar, beranda luas, dan atap tinggi.', 'Provinsi', 'SK/Gubernur_Jabar/2019/033', '2019-04-12', -7.3280000, 108.2200000, 'government', 1),
+('Stasiun Tasikmalaya', 2, 4, 'Jl. Stasiun, Cihideung', 'Cihideung', '1916', 'Stasiun kereta api peninggalan kolonial Belanda untuk jalur kereta api Priangan.', 'Dibangun tahun 1916 sebagai bagian dari jalur Staatsspoorwegen.', 'Bangunan bergaya kolonial Belanda dengan atap pelana lebar dan kanopi besi tempa khas.', 'Kota/Kabupaten', 'SK/Walikota/2017/022', '2017-08-05', -7.3310000, 108.2240000, 'station', 1),
+('Situs Cipari', 4, 6, 'Desa Cipari, Cigalon', 'Cigalon', 'Abad ke-8', 'Kompleks situs megalitikum di perbukitan dengan menhir, dolmen, dan batu dakon.', 'Diteliti sejak masa kolonial. Diperkirakan sebagai tempat pemujaan dan pemakaman prasejarah.', 'Kompleks batu megalitikum tersusun berteras dengan menhir setinggi 2 meter.', 'Nasional', 'SK/Mendikbud/2010/015', '2010-05-22', -7.3800000, 108.2600000, 'megalithic', 1),
+('Gedung Gereja GPIB Immanuel', 2, 1, 'Jl. Gereja, Kahuripan, Tawang', 'Tawang', '1905', 'Gereja tertua di Kota Tasikmalaya, dibangun pada masa kolonial Belanda.', 'Dibangun tahun 1905 untuk melayani jemaat Protestan.', 'Bangunan bergaya Gothic Revival dengan menara lonceng dan kaca patri.', 'Provinsi', 'SK/Gubernur_Jabar/2020/045', '2020-10-18', -7.3265000, 108.2210000, 'church', 1),
+('Museum Kota Tasikmalaya', 2, 7, 'Jl. Ir. H. Juanda, Cihideung', 'Cihideung', '1985', 'Museum yang menyimpan koleksi benda bersejarah dan budaya Tasikmalaya.', 'Didirikan tahun 1985 untuk melestarikan warisan budaya Tasikmalaya.', 'Bangunan modern dengan elemen tradisional Sunda dan ruang pamer luas.', 'Kota/Kabupaten', 'SK/Walikota/2016/008', '2016-02-03', -7.3290000, 108.2230000, 'museum', 1),
+('Situs Karangkamulyan', 4, 6, 'Desa Karangkamulyan, Cijeungjing', 'Cijeungjing', 'Abad ke-12', 'Kompleks situs bersejarah berkaitan dengan Kerajaan Galuh.', 'Dipercaya sebagai bekas pusat Kerajaan Galuh abad ke-7 hingga ke-12.', 'Struktur batu, candi kecil, batu bertulis, dan situs pemandian kuno.', 'Nasional', 'SK/Mendikbud/2012/067', '2012-07-10', -7.3600000, 108.2800000, 'ruins', 1),
+('Rumah Adat Sunda (Imah Julang Ngapak)', 2, 5, 'Kampung Adat, Cihideung', 'Cihideung', 'Abad ke-17', 'Contoh arsitektur tradisional Sunda yang masih terjaga keasliannya.', 'Peninggalan keluarga bangsawan Sukapura yang dijaga beberapa generasi.', 'Atap berbentuk seperti burung julang mengapak, terbuat dari ijuk, struktur kayu dan bambu.', 'Belum Ditetapkan', NULL, NULL, -7.3300000, 108.2180000, 'traditional', 1);
 
 -- Fasilitas Cagar Budaya
 INSERT INTO fasilitas_cagar_budaya (cagar_budaya_id, nama_fasilitas) VALUES

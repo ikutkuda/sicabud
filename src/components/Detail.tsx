@@ -1,4 +1,4 @@
-import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons, statusPenetapanLabels } from '../data/cagarBudaya';
+import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons, statusPenetapanLabels, jenisCagarBudayaColors, jenisCagarBudayaIcons } from '../data/cagarBudaya';
 import LampiranList from './LampiranList';
 
 interface DetailProps {
@@ -60,12 +60,21 @@ export default function Detail({ item, onBack }: DetailProps) {
                     </div>
                   </div>
                 </div>
-                <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-                  <p className="text-xs text-gray-500 mb-1">Nomor SK</p>
-                  <p className="font-medium text-gray-800 font-mono text-sm">{item.nomorSK || 'Belum tersedia'}</p>
-                  <p className="text-xs text-gray-500 mt-2 mb-1">Tanggal Penetapan</p>
-                  <p className="font-medium text-gray-800 text-sm">{item.tanggalPenetapan || 'Belum tersedia'}</p>
+                <div className={`p-4 rounded-lg border ${jenisCagarBudayaColors[item.jenis]}`}>
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">{jenisCagarBudayaIcons[item.jenis]}</span>
+                    <div>
+                      <p className="text-xs opacity-75">Jenis Cagar Budaya</p>
+                      <p className="font-bold">{item.jenis}</p>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div className="mt-4 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                <p className="text-xs text-gray-500 mb-1">Nomor SK</p>
+                <p className="font-medium text-gray-800 font-mono text-sm">{item.nomorSK || 'Belum tersedia'}</p>
+                <p className="text-xs text-gray-500 mt-2 mb-1">Tanggal Penetapan</p>
+                <p className="font-medium text-gray-800 text-sm">{item.tanggalPenetapan || 'Belum tersedia'}</p>
               </div>
             </div>
 

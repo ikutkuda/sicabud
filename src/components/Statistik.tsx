@@ -1,4 +1,4 @@
-import { cagarBudayaData, statusPenetapanIcons, statusPenetapanLabels, StatusPenetapan } from '../data/cagarBudaya';
+import { cagarBudayaData, statusPenetapanIcons, statusPenetapanLabels, jenisCagarBudayaIcons, StatusPenetapan, JenisCagarBudaya } from '../data/cagarBudaya';
 
 export default function Statistik() {
   // Hitung statistik
@@ -198,6 +198,29 @@ export default function Statistik() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Jenis Cagar Budaya Distribution */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+          <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 text-blue-600">📊</span>
+            Distribusi Jenis Cagar Budaya
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {(['Benda', 'Bangunan', 'Struktur', 'Situs', 'Kawasan'] as JenisCagarBudaya[]).map((jenis) => {
+              const count = cagarBudayaData.filter(c => c.jenis === jenis).length;
+              return (
+                <div key={jenis} className="text-center p-4 bg-gray-50 rounded-lg">
+                  <span className="text-3xl block mb-2">{jenisCagarBudayaIcons[jenis]}</span>
+                  <p className="text-2xl font-bold text-gray-800">{count}</p>
+                  <p className="text-sm text-gray-500">{jenis}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {((count / totalCagar) * 100).toFixed(0)}%
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 

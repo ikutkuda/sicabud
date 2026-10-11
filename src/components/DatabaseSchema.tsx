@@ -34,13 +34,14 @@ const tables: TableInfo[] = [
     columns: [
       { name: 'id', type: 'INT', key: 'PK', description: 'Primary Key' },
       { name: 'nama', type: 'VARCHAR(200)', description: 'Nama cagar budaya' },
+      { name: 'jenis_id', type: 'INT', key: 'FK', description: 'FK ke jenis_cagar_budaya' },
       { name: 'kategori_id', type: 'INT', key: 'FK', description: 'FK ke kategori' },
       { name: 'status_penetapan', type: 'ENUM', description: 'Kota/Provinsi/Nasional' },
       { name: 'nomor_sk', type: 'VARCHAR(100)', description: 'Nomor SK' },
       { name: 'latitude', type: 'DECIMAL(10,7)', description: 'Koordinat GPS' },
       { name: 'longitude', type: 'DECIMAL(10,7)', description: 'Koordinat GPS' },
     ],
-    relations: ['kategori_cagar_budaya', 'fasilitas_cagar_budaya', 'lampiran', 'galeri', 'bookmark', 'komentar']
+    relations: ['jenis_cagar_budaya', 'kategori_cagar_budaya', 'fasilitas_cagar_budaya', 'lampiran', 'galeri', 'bookmark', 'komentar']
   },
   {
     name: 'odcb',
@@ -125,6 +126,20 @@ const tables: TableInfo[] = [
       { name: 'deskripsi', type: 'VARCHAR(255)', description: 'Deskripsi foto' },
     ],
     relations: ['odcb']
+  },
+  {
+    name: 'jenis_cagar_budaya',
+    icon: '📋',
+    description: 'Master jenis cagar budaya sesuai UU No. 11 Tahun 2010 (Benda, Bangunan, Struktur, Situs, Kawasan)',
+    category: 'relational',
+    columns: [
+      { name: 'id', type: 'INT', key: 'PK', description: 'Primary Key' },
+      { name: 'nama_jenis', type: 'ENUM', key: 'UQ', description: 'Benda/Bangunan/Struktur/Situs/Kawasan' },
+      { name: 'ikon', type: 'VARCHAR(10)', description: 'Emoji ikon' },
+      { name: 'definisi_uu', type: 'TEXT', description: 'Definisi menurut UU' },
+      { name: 'contoh', type: 'TEXT', description: 'Contoh dalam JSON array' },
+    ],
+    relations: ['cagar_budaya']
   },
   {
     name: 'kategori_cagar_budaya',

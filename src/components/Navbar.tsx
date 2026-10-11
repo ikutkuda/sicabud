@@ -15,6 +15,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const navItems = [
     { id: 'beranda', label: 'Beranda' },
     { id: 'daftar', label: 'Cagar Budaya' },
+    { id: 'jenis-cagar-budaya', label: 'Jenis CB' },
     { id: 'peta', label: 'Peta' },
     { id: 'galeri', label: 'Galeri' },
     { id: 'statistik', label: 'Statistik' },

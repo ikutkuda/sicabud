@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { cagarBudayaData, kategoriList, statusPenetapanLabels, statusPenetapanIcons, statusPenetapanColors, CagarBudaya, StatusPenetapan } from '../data/cagarBudaya';
+import { cagarBudayaData, kategoriList, jenisList, statusPenetapanLabels, statusPenetapanIcons, statusPenetapanColors, jenisCagarBudayaIcons, CagarBudaya, StatusPenetapan, JenisCagarBudaya } from '../data/cagarBudaya';
 import Card from './Card';
 
 interface DaftarProps {
@@ -8,6 +8,7 @@ interface DaftarProps {
 
 export default function Daftar({ onSelectItem }: DaftarProps) {
   const [selectedKategori, setSelectedKategori] = useState('Semua');
+  const [selectedJenis, setSelectedJenis] = useState<JenisCagarBudaya | 'Semua'>('Semua');
   const [selectedPenetapan, setSelectedPenetapan] = useState<StatusPenetapan | 'Semua'>('Semua');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -15,11 +16,12 @@ export default function Daftar({ onSelectItem }: DaftarProps) {
 
   const filteredData = cagarBudayaData.filter((item) => {
     const matchKategori = selectedKategori === 'Semua' || item.kategori === selectedKategori;
+    const matchJenis = selectedJenis === 'Semua' || item.jenis === selectedJenis;
     const matchPenetapan = selectedPenetapan === 'Semua' || item.statusPenetapan === selectedPenetapan;
     const matchSearch = item.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.deskripsi.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.kecamatan.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchKategori && matchPenetapan && matchSearch;
+    return matchKategori && matchJenis && matchPenetapan && matchSearch;
   });
 
   return (
@@ -51,6 +53,26 @@ export default function Daftar({ onSelectItem }: DaftarProps) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
               />
+            </div>
+
+            {/* Jenis Cagar Budaya Filter */}
+            <div>
+              <p className="text-sm font-medium text-gray-700 mb-2">Filter Jenis Cagar Budaya:</p>
+              <div className="flex flex-wrap gap-2">
+                {jenisList.map((jenis) => (
+                  <button
+                    key={jenis}
+                    onClick={() => setSelectedJenis(jenis)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
+                      selectedJenis === jenis
+                        ? 'bg-emerald-600 text-white border-emerald-600'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    {jenis === 'Semua' ? '📋 Semua Jenis' : `${jenisCagarBudayaIcons[jenis as JenisCagarBudaya]} ${jenis}`}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Status Penetapan Filter */}
@@ -104,9 +126,9 @@ export default function Daftar({ onSelectItem }: DaftarProps) {
               Menampilkan <span className="font-bold text-emerald-600">{filteredData.length}</span> dari{' '}
               <span className="font-bold">{cagarBudayaData.length}</span> cagar budaya
             </span>
-            {(selectedKategori !== 'Semua' || selectedPenetapan !== 'Semua' || searchQuery) && (
+            {(selectedKategori !== 'Semua' || selectedJenis !== 'Semua' || selectedPenetapan !== 'Semua' || searchQuery) && (
               <button
-                onClick={() => { setSelectedKategori('Semua'); setSelectedPenetapan('Semua'); setSearchQuery(''); }}
+                onClick={() => { setSelectedKategori('Semua'); setSelectedJenis('Semua'); setSelectedPenetapan('Semua'); setSearchQuery(''); }}
                 className="text-emerald-600 hover:text-emerald-700 font-medium text-xs"
               >
                 ✕ Reset Filter

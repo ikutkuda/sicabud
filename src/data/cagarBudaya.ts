@@ -1,5 +1,8 @@
 export type StatusPenetapan = 'Belum Ditetapkan' | 'Kota/Kabupaten' | 'Provinsi' | 'Nasional';
 
+// Jenis Cagar Budaya sesuai UU No. 11 Tahun 2010 Pasal 1
+export type JenisCagarBudaya = 'Benda' | 'Bangunan' | 'Struktur' | 'Situs' | 'Kawasan';
+
 export interface Lampiran {
   id: number;
   namaFile: string;
@@ -14,6 +17,7 @@ export interface Lampiran {
 export interface CagarBudaya {
   id: number;
   nama: string;
+  jenis: JenisCagarBudaya;
   kategori: string;
   lokasi: string;
   kecamatan: string;
@@ -30,6 +34,81 @@ export interface CagarBudaya {
   fasilitas: string[];
   lampiran: Lampiran[];
 }
+
+// Master data Jenis Cagar Budaya
+export interface JenisCagarBudayaInfo {
+  id: number;
+  nama: JenisCagarBudaya;
+  ikon: string;
+  deskripsi: string;
+  definisiUU: string;
+  contoh: string[];
+  warna: string;
+}
+
+export const jenisCagarBudayaList: JenisCagarBudayaInfo[] = [
+  {
+    id: 1,
+    nama: 'Benda',
+    ikon: '🏺',
+    deskripsi: 'Benda Cagar Budaya',
+    definisiUU: 'Benda alam dan/atau benda buatan manusia, baik yang bergerak maupun yang tidak bergerak, yang berwujud kesatuan atau kelompok, atau bagian-bagiannya atau sisa-sisanya, yang memiliki usia sekurang-kurangnya 50 (lima puluh) tahun, serta dianggap memiliki nilai penting bagi sejarah, ilmu pengetahuan, dan kebudayaan.',
+    contoh: ['Arca', 'Prasasti', 'Keris', 'Mata Uang Kuno', 'Gerabah', 'Perhiasan Kuno'],
+    warna: 'from-amber-400 to-orange-500'
+  },
+  {
+    id: 2,
+    nama: 'Bangunan',
+    ikon: '🏛️',
+    deskripsi: 'Bangunan Cagar Budaya',
+    definisiUU: 'Susunan binaan yang terbuat dari benda alam dan/atau benda buatan manusia untuk mewadahi kegiatan manusia, baik yang didirikan di atas tanah maupun di atas air.',
+    contoh: ['Masjid', 'Gereja', 'Gedung Pemerintahan', 'Rumah Adat', 'Museum', 'Stasiun'],
+    warna: 'from-blue-400 to-indigo-500'
+  },
+  {
+    id: 3,
+    nama: 'Struktur',
+    ikon: '🏗️',
+    deskripsi: 'Struktur Cagar Budaya',
+    definisiUU: 'Susunan binaan yang terbuat dari benda alam dan/atau benda buatan manusia untuk mendukung kegiatan konstruksi atau infrastruktur, yang tidak mewadahi kegiatan manusia secara langsung.',
+    contoh: ['Jembatan Kuno', 'Benteng', 'Tembok Pertahanan', 'Sumur Kuno', 'Saluran Air', 'Menara'],
+    warna: 'from-purple-400 to-pink-500'
+  },
+  {
+    id: 4,
+    nama: 'Situs',
+    ikon: '🗿',
+    deskripsi: 'Situs Cagar Budaya',
+    definisiUU: 'Lokasi yang berada di darat dan/atau di air yang mengandung Benda Cagar Budaya, Bangunan Cagar Budaya, dan/atau Struktur Cagar Budaya sebagai hasil kegiatan manusia atau bukti kejadian pada masa lalu.',
+    contoh: ['Situs Megalitikum', 'Situs Arkeologi', 'Situs Prasejarah', 'Situs Kerajaan Kuno', 'Situs Pertempuran'],
+    warna: 'from-emerald-400 to-teal-500'
+  },
+  {
+    id: 5,
+    nama: 'Kawasan',
+    ikon: '🌏',
+    deskripsi: 'Kawasan Cagar Budaya',
+    definisiUU: 'Area di darat dan/atau di air yang memiliki dua Situs Cagar Budaya atau lebih yang letaknya berdekatan dan memperlihatkan ciri tata ruang yang khas.',
+    contoh: ['Kawasan Kota Tua', 'Kawasan Pusat Kerajaan', 'Kawasan Pelabuhan Kuno', 'Kawasan Pemukiman Adat'],
+    warna: 'from-rose-400 to-red-500'
+  }
+];
+
+export const jenisCagarBudayaColors: Record<JenisCagarBudaya, string> = {
+  'Benda': 'bg-amber-100 text-amber-700 border-amber-300',
+  'Bangunan': 'bg-blue-100 text-blue-700 border-blue-300',
+  'Struktur': 'bg-purple-100 text-purple-700 border-purple-300',
+  'Situs': 'bg-emerald-100 text-emerald-700 border-emerald-300',
+  'Kawasan': 'bg-rose-100 text-rose-700 border-rose-300',
+};
+
+export const jenisCagarBudayaIcons: Record<JenisCagarBudaya, string> = {
+  'Benda': '🏺',
+  'Bangunan': '🏛️',
+  'Struktur': '🏗️',
+  'Situs': '🗿',
+  'Kawasan': '🌏',
+};
 
 export const statusPenetapanLabels: Record<StatusPenetapan, string> = {
   'Belum Ditetapkan': 'Belum Ditetapkan',
@@ -78,6 +157,7 @@ export const cagarBudayaData: CagarBudaya[] = [
   {
     id: 1,
     nama: "Masjid Agung Kota Tasikmalaya",
+    jenis: "Bangunan",
     kategori: "Bangunan Keagamaan",
     lokasi: "Jl. Masjid Agung, Kahuripan, Tawang",
     kecamatan: "Tawang",
@@ -93,61 +173,17 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "mosque",
     fasilitas: ["Area Parkir", "Tempat Wudhu", "Perpustakaan", "Tempat Parkir Roda Dua & Empat"],
     lampiran: [
-      {
-        id: 101,
-        namaFile: "SK_Penetapan_Nasional_Masjid_Agung.pdf",
-        tipe: "sk",
-        ukuran: "2.4 MB",
-        tanggalUpload: "2024-01-10",
-        uploader: "Admin SICABA",
-        deskripsi: "Surat Keputusan penetapan sebagai Cagar Budaya tingkat Nasional",
-        url: "#"
-      },
-      {
-        id: 102,
-        namaFile: "Sertifikat_Cagar_Budaya.pdf",
-        tipe: "sertifikat",
-        ukuran: "1.8 MB",
-        tanggalUpload: "2024-01-10",
-        uploader: "Admin SICABA",
-        deskripsi: "Sertifikat resmi cagar budaya dari Kementerian",
-        url: "#"
-      },
-      {
-        id: 103,
-        namaFile: "Peta_Lokasi_Masjid_Agung.png",
-        tipe: "peta",
-        ukuran: "856 KB",
-        tanggalUpload: "2024-01-12",
-        uploader: "Manager Konten",
-        deskripsi: "Peta detail lokasi dan area cagar budaya",
-        url: "#"
-      },
-      {
-        id: 104,
-        namaFile: "Foto_Dokumentasi_Masjid.jpg",
-        tipe: "foto",
-        ukuran: "3.2 MB",
-        tanggalUpload: "2024-01-15",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Koleksi foto dokumentasi bangunan masjid",
-        url: "#"
-      },
-      {
-        id: 105,
-        namaFile: "Laporan_Pemugaran_2020.pdf",
-        tipe: "pdf",
-        ukuran: "5.1 MB",
-        tanggalUpload: "2024-02-01",
-        uploader: "Admin SICABA",
-        deskripsi: "Laporan lengkap pemugaran dan renovasi tahun 2020",
-        url: "#"
-      }
+      { id: 101, namaFile: "SK_Penetapan_Nasional_Masjid_Agung.pdf", tipe: "sk", ukuran: "2.4 MB", tanggalUpload: "2024-01-10", uploader: "Admin SICABA", deskripsi: "Surat Keputusan penetapan sebagai Cagar Budaya tingkat Nasional", url: "#" },
+      { id: 102, namaFile: "Sertifikat_Cagar_Budaya.pdf", tipe: "sertifikat", ukuran: "1.8 MB", tanggalUpload: "2024-01-10", uploader: "Admin SICABA", deskripsi: "Sertifikat resmi cagar budaya dari Kementerian", url: "#" },
+      { id: 103, namaFile: "Peta_Lokasi_Masjid_Agung.png", tipe: "peta", ukuran: "856 KB", tanggalUpload: "2024-01-12", uploader: "Manager Konten", deskripsi: "Peta detail lokasi dan area cagar budaya", url: "#" },
+      { id: 104, namaFile: "Foto_Dokumentasi_Masjid.jpg", tipe: "foto", ukuran: "3.2 MB", tanggalUpload: "2024-01-15", uploader: "Tim Dokumentasi", deskripsi: "Koleksi foto dokumentasi bangunan masjid", url: "#" },
+      { id: 105, namaFile: "Laporan_Pemugaran_2020.pdf", tipe: "pdf", ukuran: "5.1 MB", tanggalUpload: "2024-02-01", uploader: "Admin SICABA", deskripsi: "Laporan lengkap pemugaran dan renovasi tahun 2020", url: "#" }
     ]
   },
   {
     id: 2,
     nama: "Gedung Kesenian Kota Tasikmalaya",
+    jenis: "Bangunan",
     kategori: "Bangunan Publik",
     lokasi: "Jl. Sukapura, Yudanagara, Cihideung",
     kecamatan: "Cihideung",
@@ -163,41 +199,15 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "building",
     fasilitas: ["Auditorium", "Area Parkir", "Toilet Umum", "Ruang Pertunjukan"],
     lampiran: [
-      {
-        id: 201,
-        namaFile: "SK_Penetapan_Kota_Gedung_Kesenian.pdf",
-        tipe: "sk",
-        ukuran: "1.5 MB",
-        tanggalUpload: "2024-01-08",
-        uploader: "Admin SICABA",
-        deskripsi: "SK Walikota tentang penetapan cagar budaya tingkat kota",
-        url: "#"
-      },
-      {
-        id: 202,
-        namaFile: "Dokumen_Sejarah_Gedung.doc",
-        tipe: "doc",
-        ukuran: "2.8 MB",
-        tanggalUpload: "2024-01-09",
-        uploader: "Manager Konten",
-        deskripsi: "Dokumen lengkap sejarah gedung kesenian",
-        url: "#"
-      },
-      {
-        id: 203,
-        namaFile: "Foto_Fasad_Depan.jpg",
-        tipe: "foto",
-        ukuran: "2.1 MB",
-        tanggalUpload: "2024-01-10",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto fasad depan gedung kesenian",
-        url: "#"
-      }
+      { id: 201, namaFile: "SK_Penetapan_Kota_Gedung_Kesenian.pdf", tipe: "sk", ukuran: "1.5 MB", tanggalUpload: "2024-01-08", uploader: "Admin SICABA", deskripsi: "SK Walikota tentang penetapan cagar budaya tingkat kota", url: "#" },
+      { id: 202, namaFile: "Dokumen_Sejarah_Gedung.doc", tipe: "doc", ukuran: "2.8 MB", tanggalUpload: "2024-01-09", uploader: "Manager Konten", deskripsi: "Dokumen lengkap sejarah gedung kesenian", url: "#" },
+      { id: 203, namaFile: "Foto_Fasad_Depan.jpg", tipe: "foto", ukuran: "2.1 MB", tanggalUpload: "2024-01-10", uploader: "Tim Dokumentasi", deskripsi: "Foto fasad depan gedung kesenian", url: "#" }
     ]
   },
   {
     id: 3,
     nama: "Situs Batu Calung",
+    jenis: "Situs",
     kategori: "Situs Arkeologi",
     lokasi: "Desa Sukarasa, Sukaratu",
     kecamatan: "Sukaratu",
@@ -213,51 +223,16 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "archaeology",
     fasilitas: ["Area Parkir", "Papan Informasi", "Jalur Pejalan Kaki", "Pos Jaga"],
     lampiran: [
-      {
-        id: 301,
-        namaFile: "SK_Penetapan_Nasional_Situs_Batu_Calung.pdf",
-        tipe: "sk",
-        ukuran: "3.2 MB",
-        tanggalUpload: "2024-01-05",
-        uploader: "Admin SICABA",
-        deskripsi: "SK penetapan nasional dari Kementerian",
-        url: "#"
-      },
-      {
-        id: 302,
-        namaFile: "Laporan_Penelitian_Arkeologi.pdf",
-        tipe: "pdf",
-        ukuran: "8.5 MB",
-        tanggalUpload: "2024-01-06",
-        uploader: "Admin SICABA",
-        deskripsi: "Laporan penelitian arkeologi lengkap",
-        url: "#"
-      },
-      {
-        id: 303,
-        namaFile: "Peta_Situs_Batu_Calung.png",
-        tipe: "peta",
-        ukuran: "1.2 MB",
-        tanggalUpload: "2024-01-07",
-        uploader: "Manager Konten",
-        deskripsi: "Peta detail situs dengan titik-titik temuan",
-        url: "#"
-      },
-      {
-        id: 304,
-        namaFile: "Foto_Temuan_Artefak.jpg",
-        tipe: "foto",
-        ukuran: "4.5 MB",
-        tanggalUpload: "2024-01-08",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto-foto temuan artefak di situs",
-        url: "#"
-      }
+      { id: 301, namaFile: "SK_Penetapan_Nasional_Situs_Batu_Calung.pdf", tipe: "sk", ukuran: "3.2 MB", tanggalUpload: "2024-01-05", uploader: "Admin SICABA", deskripsi: "SK penetapan nasional dari Kementerian", url: "#" },
+      { id: 302, namaFile: "Laporan_Penelitian_Arkeologi.pdf", tipe: "pdf", ukuran: "8.5 MB", tanggalUpload: "2024-01-06", uploader: "Admin SICABA", deskripsi: "Laporan penelitian arkeologi lengkap", url: "#" },
+      { id: 303, namaFile: "Peta_Situs_Batu_Calung.png", tipe: "peta", ukuran: "1.2 MB", tanggalUpload: "2024-01-07", uploader: "Manager Konten", deskripsi: "Peta detail situs dengan titik-titik temuan", url: "#" },
+      { id: 304, namaFile: "Foto_Temuan_Artefak.jpg", tipe: "foto", ukuran: "4.5 MB", tanggalUpload: "2024-01-08", uploader: "Tim Dokumentasi", deskripsi: "Foto-foto temuan artefak di situs", url: "#" }
     ]
   },
   {
     id: 4,
     nama: "Kantor Bupati Lama Tasikmalaya",
+    jenis: "Bangunan",
     kategori: "Bangunan Pemerintahan",
     lokasi: "Jl. Sukapura No. 1, Cihideung",
     kecamatan: "Cihideung",
@@ -273,41 +248,15 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "government",
     fasilitas: ["Area Parkir", "Taman", "Ruang Pertemuan", "Toilet"],
     lampiran: [
-      {
-        id: 401,
-        namaFile: "SK_Gubernur_Penetapan_Provinsi.pdf",
-        tipe: "sk",
-        ukuran: "2.1 MB",
-        tanggalUpload: "2024-01-11",
-        uploader: "Admin SICABA",
-        deskripsi: "SK Gubernur Jawa Barat tentang penetapan cagar budaya provinsi",
-        url: "#"
-      },
-      {
-        id: 402,
-        namaFile: "Sertifikat_Cagar_Budaya_Provinsi.pdf",
-        tipe: "sertifikat",
-        ukuran: "1.5 MB",
-        tanggalUpload: "2024-01-11",
-        uploader: "Admin SICABA",
-        deskripsi: "Sertifikat resmi dari Pemprov Jawa Barat",
-        url: "#"
-      },
-      {
-        id: 403,
-        namaFile: "Dokumentasi_Bangunan.jpg",
-        tipe: "foto",
-        ukuran: "3.8 MB",
-        tanggalUpload: "2024-01-12",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Dokumentasi foto kondisi bangunan saat ini",
-        url: "#"
-      }
+      { id: 401, namaFile: "SK_Gubernur_Penetapan_Provinsi.pdf", tipe: "sk", ukuran: "2.1 MB", tanggalUpload: "2024-01-11", uploader: "Admin SICABA", deskripsi: "SK Gubernur Jawa Barat tentang penetapan cagar budaya provinsi", url: "#" },
+      { id: 402, namaFile: "Sertifikat_Cagar_Budaya_Provinsi.pdf", tipe: "sertifikat", ukuran: "1.5 MB", tanggalUpload: "2024-01-11", uploader: "Admin SICABA", deskripsi: "Sertifikat resmi dari Pemprov Jawa Barat", url: "#" },
+      { id: 403, namaFile: "Dokumentasi_Bangunan.jpg", tipe: "foto", ukuran: "3.8 MB", tanggalUpload: "2024-01-12", uploader: "Tim Dokumentasi", deskripsi: "Dokumentasi foto kondisi bangunan saat ini", url: "#" }
     ]
   },
   {
     id: 5,
     nama: "Stasiun Tasikmalaya",
+    jenis: "Bangunan",
     kategori: "Bangunan Transportasi",
     lokasi: "Jl. Stasiun, Cihideung",
     kecamatan: "Cihideung",
@@ -323,31 +272,14 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "station",
     fasilitas: ["Loket Tiket", "Area Tunggu", "Toilet", "Kantin", "Area Parkir"],
     lampiran: [
-      {
-        id: 501,
-        namaFile: "SK_Walikota_Stasiun.pdf",
-        tipe: "sk",
-        ukuran: "1.8 MB",
-        tanggalUpload: "2024-01-14",
-        uploader: "Admin SICABA",
-        deskripsi: "SK penetapan stasiun sebagai cagar budaya kota",
-        url: "#"
-      },
-      {
-        id: 502,
-        namaFile: "Sejarah_Stasiun_Tasikmalaya.pdf",
-        tipe: "pdf",
-        ukuran: "4.2 MB",
-        tanggalUpload: "2024-01-15",
-        uploader: "Manager Konten",
-        deskripsi: "Buku digital sejarah stasiun Tasikmalaya",
-        url: "#"
-      }
+      { id: 501, namaFile: "SK_Walikota_Stasiun.pdf", tipe: "sk", ukuran: "1.8 MB", tanggalUpload: "2024-01-14", uploader: "Admin SICABA", deskripsi: "SK penetapan stasiun sebagai cagar budaya kota", url: "#" },
+      { id: 502, namaFile: "Sejarah_Stasiun_Tasikmalaya.pdf", tipe: "pdf", ukuran: "4.2 MB", tanggalUpload: "2024-01-15", uploader: "Manager Konten", deskripsi: "Buku digital sejarah stasiun Tasikmalaya", url: "#" }
     ]
   },
   {
     id: 6,
     nama: "Situs Cipari",
+    jenis: "Situs",
     kategori: "Situs Arkeologi",
     lokasi: "Desa Cipari, Cigalon",
     kecamatan: "Cigalon",
@@ -363,61 +295,17 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "megalithic",
     fasilitas: ["Area Parkir", "Papan Informasi", "Jalur Pejalan Kaki", "Museum Mini"],
     lampiran: [
-      {
-        id: 601,
-        namaFile: "SK_Nasional_Situs_Cipari.pdf",
-        tipe: "sk",
-        ukuran: "2.9 MB",
-        tanggalUpload: "2024-01-03",
-        uploader: "Admin SICABA",
-        deskripsi: "SK penetapan nasional dari Kemendikbud",
-        url: "#"
-      },
-      {
-        id: 602,
-        namaFile: "Jurnal_Penelitian_Cipari.pdf",
-        tipe: "pdf",
-        ukuran: "12.3 MB",
-        tanggalUpload: "2024-01-04",
-        uploader: "Admin SICABA",
-        deskripsi: "Kumpulan jurnal penelitian arkeologi di Situs Cipari",
-        url: "#"
-      },
-      {
-        id: 603,
-        namaFile: "Peta_Topografi_Situs.png",
-        tipe: "peta",
-        ukuran: "2.1 MB",
-        tanggalUpload: "2024-01-05",
-        uploader: "Manager Konten",
-        deskripsi: "Peta topografi detail kawasan situs",
-        url: "#"
-      },
-      {
-        id: 604,
-        namaFile: "Foto_Menhir_Dolmen.jpg",
-        tipe: "foto",
-        ukuran: "5.6 MB",
-        tanggalUpload: "2024-01-06",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto menhir dan dolmen di situs Cipari",
-        url: "#"
-      },
-      {
-        id: 605,
-        namaFile: "Sertifikat_Nasional.pdf",
-        tipe: "sertifikat",
-        ukuran: "1.1 MB",
-        tanggalUpload: "2024-01-07",
-        uploader: "Admin SICABA",
-        deskripsi: "Sertifikat cagar budaya nasional",
-        url: "#"
-      }
+      { id: 601, namaFile: "SK_Nasional_Situs_Cipari.pdf", tipe: "sk", ukuran: "2.9 MB", tanggalUpload: "2024-01-03", uploader: "Admin SICABA", deskripsi: "SK penetapan nasional dari Kemendikbud", url: "#" },
+      { id: 602, namaFile: "Jurnal_Penelitian_Cipari.pdf", tipe: "pdf", ukuran: "12.3 MB", tanggalUpload: "2024-01-04", uploader: "Admin SICABA", deskripsi: "Kumpulan jurnal penelitian arkeologi di Situs Cipari", url: "#" },
+      { id: 603, namaFile: "Peta_Topografi_Situs.png", tipe: "peta", ukuran: "2.1 MB", tanggalUpload: "2024-01-05", uploader: "Manager Konten", deskripsi: "Peta topografi detail kawasan situs", url: "#" },
+      { id: 604, namaFile: "Foto_Menhir_Dolmen.jpg", tipe: "foto", ukuran: "5.6 MB", tanggalUpload: "2024-01-06", uploader: "Tim Dokumentasi", deskripsi: "Foto menhir dan dolmen di situs Cipari", url: "#" },
+      { id: 605, namaFile: "Sertifikat_Nasional.pdf", tipe: "sertifikat", ukuran: "1.1 MB", tanggalUpload: "2024-01-07", uploader: "Admin SICABA", deskripsi: "Sertifikat cagar budaya nasional", url: "#" }
     ]
   },
   {
     id: 7,
     nama: "Gedung Gereja GPIB Immanuel",
+    jenis: "Bangunan",
     kategori: "Bangunan Keagamaan",
     lokasi: "Jl. Gereja, Kahuripan, Tawang",
     kecamatan: "Tawang",
@@ -433,31 +321,14 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "church",
     fasilitas: ["Area Parkir", "Ruang Ibadah", "Perpustakaan", "Toilet"],
     lampiran: [
-      {
-        id: 701,
-        namaFile: "SK_Gubernur_Gereja_Immanuel.pdf",
-        tipe: "sk",
-        ukuran: "2.3 MB",
-        tanggalUpload: "2024-01-16",
-        uploader: "Admin SICABA",
-        deskripsi: "SK Gubernur penetapan cagar budaya provinsi",
-        url: "#"
-      },
-      {
-        id: 702,
-        namaFile: "Foto_Interior_Gereja.jpg",
-        tipe: "foto",
-        ukuran: "3.4 MB",
-        tanggalUpload: "2024-01-17",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto interior dan kaca patri gereja",
-        url: "#"
-      }
+      { id: 701, namaFile: "SK_Gubernur_Gereja_Immanuel.pdf", tipe: "sk", ukuran: "2.3 MB", tanggalUpload: "2024-01-16", uploader: "Admin SICABA", deskripsi: "SK Gubernur penetapan cagar budaya provinsi", url: "#" },
+      { id: 702, namaFile: "Foto_Interior_Gereja.jpg", tipe: "foto", ukuran: "3.4 MB", tanggalUpload: "2024-01-17", uploader: "Tim Dokumentasi", deskripsi: "Foto interior dan kaca patri gereja", url: "#" }
     ]
   },
   {
     id: 8,
     nama: "Museum Kota Tasikmalaya",
+    jenis: "Bangunan",
     kategori: "Museum",
     lokasi: "Jl. Ir. H. Juanda, Cihideung",
     kecamatan: "Cihideung",
@@ -473,41 +344,15 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "museum",
     fasilitas: ["Ruang Pamer", "Perpustakaan", "Toilet", "Area Parkir", "Toko Souvenir"],
     lampiran: [
-      {
-        id: 801,
-        namaFile: "SK_Walikota_Museum.pdf",
-        tipe: "sk",
-        ukuran: "1.6 MB",
-        tanggalUpload: "2024-01-18",
-        uploader: "Admin SICABA",
-        deskripsi: "SK penetapan museum sebagai cagar budaya kota",
-        url: "#"
-      },
-      {
-        id: 802,
-        namaFile: "Katalog_Koleksi_Museum.pdf",
-        tipe: "pdf",
-        ukuran: "15.2 MB",
-        tanggalUpload: "2024-01-19",
-        uploader: "Manager Konten",
-        deskripsi: "Katalog lengkap koleksi museum",
-        url: "#"
-      },
-      {
-        id: 803,
-        namaFile: "Peta_Zona_Museum.png",
-        tipe: "peta",
-        ukuran: "980 KB",
-        tanggalUpload: "2024-01-20",
-        uploader: "Manager Konten",
-        deskripsi: "Peta zona dan tata letak museum",
-        url: "#"
-      }
+      { id: 801, namaFile: "SK_Walikota_Museum.pdf", tipe: "sk", ukuran: "1.6 MB", tanggalUpload: "2024-01-18", uploader: "Admin SICABA", deskripsi: "SK penetapan museum sebagai cagar budaya kota", url: "#" },
+      { id: 802, namaFile: "Katalog_Koleksi_Museum.pdf", tipe: "pdf", ukuran: "15.2 MB", tanggalUpload: "2024-01-19", uploader: "Manager Konten", deskripsi: "Katalog lengkap koleksi museum", url: "#" },
+      { id: 803, namaFile: "Peta_Zona_Museum.png", tipe: "peta", ukuran: "980 KB", tanggalUpload: "2024-01-20", uploader: "Manager Konten", deskripsi: "Peta zona dan tata letak museum", url: "#" }
     ]
   },
   {
     id: 9,
     nama: "Situs Karangkamulyan",
+    jenis: "Situs",
     kategori: "Situs Arkeologi",
     lokasi: "Desa Karangkamulyan, Cijeungjing",
     kecamatan: "Cijeungjing",
@@ -523,51 +368,16 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "ruins",
     fasilitas: ["Area Parkir", "Pemandu Wisata", "Papan Informasi", "Toilet", "Mushola"],
     lampiran: [
-      {
-        id: 901,
-        namaFile: "SK_Nasional_Karangkamulyan.pdf",
-        tipe: "sk",
-        ukuran: "3.5 MB",
-        tanggalUpload: "2024-01-21",
-        uploader: "Admin SICABA",
-        deskripsi: "SK penetapan nasional dari Kemendikbud",
-        url: "#"
-      },
-      {
-        id: 902,
-        namaFile: "Penelitian_Kerajaan_Galuh.pdf",
-        tipe: "pdf",
-        ukuran: "9.8 MB",
-        tanggalUpload: "2024-01-22",
-        uploader: "Admin SICABA",
-        deskripsi: "Hasil penelitian tentang Kerajaan Galuh",
-        url: "#"
-      },
-      {
-        id: 903,
-        namaFile: "Peta_Area_Situs.png",
-        tipe: "peta",
-        ukuran: "1.8 MB",
-        tanggalUpload: "2024-01-23",
-        uploader: "Manager Konten",
-        deskripsi: "Peta area situs Karangkamulyan",
-        url: "#"
-      },
-      {
-        id: 904,
-        namaFile: "Foto_Candi_Batu.jpg",
-        tipe: "foto",
-        ukuran: "4.2 MB",
-        tanggalUpload: "2024-01-24",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto candi dan struktur batu di situs",
-        url: "#"
-      }
+      { id: 901, namaFile: "SK_Nasional_Karangkamulyan.pdf", tipe: "sk", ukuran: "3.5 MB", tanggalUpload: "2024-01-21", uploader: "Admin SICABA", deskripsi: "SK penetapan nasional dari Kemendikbud", url: "#" },
+      { id: 902, namaFile: "Penelitian_Kerajaan_Galuh.pdf", tipe: "pdf", ukuran: "9.8 MB", tanggalUpload: "2024-01-22", uploader: "Admin SICABA", deskripsi: "Hasil penelitian tentang Kerajaan Galuh", url: "#" },
+      { id: 903, namaFile: "Peta_Area_Situs.png", tipe: "peta", ukuran: "1.8 MB", tanggalUpload: "2024-01-23", uploader: "Manager Konten", deskripsi: "Peta area situs Karangkamulyan", url: "#" },
+      { id: 904, namaFile: "Foto_Candi_Batu.jpg", tipe: "foto", ukuran: "4.2 MB", tanggalUpload: "2024-01-24", uploader: "Tim Dokumentasi", deskripsi: "Foto candi dan struktur batu di situs", url: "#" }
     ]
   },
   {
     id: 10,
     nama: "Rumah Adat Sunda (Imah Julang Ngapak)",
+    jenis: "Bangunan",
     kategori: "Bangunan Tradisional",
     lokasi: "Kampung Adat, Cihideung",
     kecamatan: "Cihideung",
@@ -581,36 +391,9 @@ export const cagarBudayaData: CagarBudaya[] = [
     gambar: "traditional",
     fasilitas: ["Area Parkir", "Pemandu Wisata", "Toilet", "Taman"],
     lampiran: [
-      {
-        id: 1001,
-        namaFile: "Dokumen_Pengajuan_Penetapan.pdf",
-        tipe: "pdf",
-        ukuran: "4.1 MB",
-        tanggalUpload: "2024-02-01",
-        uploader: "Manager Konten",
-        deskripsi: "Dokumen pengajuan penetapan cagar budaya (dalam proses)",
-        url: "#"
-      },
-      {
-        id: 1002,
-        namaFile: "Foto_Rumah_Adat.jpg",
-        tipe: "foto",
-        ukuran: "3.6 MB",
-        tanggalUpload: "2024-02-02",
-        uploader: "Tim Dokumentasi",
-        deskripsi: "Foto detail rumah adat Julang Ngapak",
-        url: "#"
-      },
-      {
-        id: 1003,
-        namaFile: "Sketsa_Arsitektur.png",
-        tipe: "peta",
-        ukuran: "1.4 MB",
-        tanggalUpload: "2024-02-03",
-        uploader: "Manager Konten",
-        deskripsi: "Sketsa arsitektur dan denah rumah adat",
-        url: "#"
-      }
+      { id: 1001, namaFile: "Dokumen_Pengajuan_Penetapan.pdf", tipe: "pdf", ukuran: "4.1 MB", tanggalUpload: "2024-02-01", uploader: "Manager Konten", deskripsi: "Dokumen pengajuan penetapan cagar budaya (dalam proses)", url: "#" },
+      { id: 1002, namaFile: "Foto_Rumah_Adat.jpg", tipe: "foto", ukuran: "3.6 MB", tanggalUpload: "2024-02-02", uploader: "Tim Dokumentasi", deskripsi: "Foto detail rumah adat Julang Ngapak", url: "#" },
+      { id: 1003, namaFile: "Sketsa_Arsitektur.png", tipe: "peta", ukuran: "1.4 MB", tanggalUpload: "2024-02-03", uploader: "Manager Konten", deskripsi: "Sketsa arsitektur dan denah rumah adat", url: "#" }
     ]
   }
 ];
@@ -624,4 +407,13 @@ export const kategoriList = [
   "Bangunan Tradisional",
   "Situs Arkeologi",
   "Museum"
+];
+
+export const jenisList: (JenisCagarBudaya | 'Semua')[] = [
+  "Semua",
+  "Benda",
+  "Bangunan",
+  "Struktur",
+  "Situs",
+  "Kawasan"
 ];

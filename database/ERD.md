@@ -74,6 +74,7 @@ Tabel utama yang menyimpan data cagar budaya.
 | updated_by | INT (FK) | User yang update |
 
 **Relasi:**
+- `jenis_id` → `jenis_cagar_budaya.id` (Jenis CB sesuai UU No. 11/2010)
 - `kategori_id` → `kategori_cagar_budaya.id`
 - `created_by` → `users.id`
 - `updated_by` → `users.id`
@@ -142,6 +143,25 @@ Menyimpan konten berita dan artikel.
 ---
 
 ### 2. RELATIONAL TABLES (Tabel Pendukung)
+
+#### `jenis_cagar_budaya` - Master Jenis (UU No. 11/2010)
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| id | INT (PK) | Primary Key |
+| nama_jenis | ENUM | Benda/Bangunan/Struktur/Situs/Kawasan |
+| ikon | VARCHAR(10) | Emoji ikon |
+| deskripsi | TEXT | Deskripsi singkat |
+| definisi_uu | TEXT | Definisi menurut UU No. 11/2010 |
+| contoh | TEXT | Contoh dalam JSON array |
+
+**5 Jenis Cagar Budaya sesuai UU:**
+- 🏺 **Benda** - Arca, Prasasti, Keris, dll
+- 🏛️ **Bangunan** - Masjid, Gereja, Gedung, dll
+- 🏗️ **Struktur** - Jembatan, Benteng, Tembok, dll
+- 🗿 **Situs** - Situs Megalitikum, Arkeologi, dll
+- 🌏 **Kawasan** - Kota Tua, Pusat Kerajaan, dll
+
+---
 
 #### `kategori_cagar_budaya` - Master Kategori
 | Kolom | Tipe | Keterangan |
@@ -387,6 +407,15 @@ Menyimpan konten berita dan artikel.
 | Provinsi | 2 | 20% |
 | Kota/Kabupaten | 3 | 30% |
 | Belum Ditetapkan | 1 | 10% |
+
+### Distribusi Jenis Cagar Budaya (UU No. 11/2010)
+| Jenis | Ikon | Jumlah | Persentase | Contoh di Tasikmalaya |
+|-------|------|--------|------------|----------------------|
+| Benda | 🏺 | 0 | 0% | - |
+| Bangunan | 🏛️ | 7 | 70% | Masjid Agung, Gereja, Museum, dll |
+| Struktur | 🏗️ | 0 | 0% | - |
+| Situs | 🗿 | 3 | 30% | Situs Batu Calung, Cipari, Karangkamulyan |
+| Kawasan | 🌏 | 0 | 0% | - |
 
 ### Distribusi Role User
 | Role | Total | Approved | Pending | Rejected |

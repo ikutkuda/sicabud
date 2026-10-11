@@ -18,6 +18,7 @@ import Dashboard from './components/Dashboard';
 import Profil from './components/Profil';
 import KelolaLampiran from './components/KelolaLampiran';
 import KelolaPenetapan from './components/KelolaPenetapan';
+import JenisCagarBudaya from './components/JenisCagarBudaya';
 import FormODCB from './components/FormODCB';
 import DaftarODCB from './components/DaftarODCB';
 import KelolaODCB from './components/KelolaODCB';
@@ -27,7 +28,7 @@ import DatabaseSchema from './components/DatabaseSchema';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan' | 'form-odcb' | 'daftar-odcb' | 'kelola-odcb' | 'status-pendaftaran' | 'verifikasi-pembayaran' | 'database';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan' | 'jenis-cagar-budaya' | 'form-odcb' | 'daftar-odcb' | 'kelola-odcb' | 'status-pendaftaran' | 'verifikasi-pembayaran' | 'database';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
@@ -300,6 +301,8 @@ function AppContent() {
         return <KelolaLampiran onNavigate={handleNavigate} />;
       case 'kelola-penetapan':
         return <KelolaPenetapan onNavigate={handleNavigate} />;
+      case 'jenis-cagar-budaya':
+        return <JenisCagarBudaya />;
       case 'form-odcb':
         return <FormODCB onSubmit={handleODCBSubmit} onCancel={() => setCurrentPage('daftar-odcb')} />;
       case 'daftar-odcb':

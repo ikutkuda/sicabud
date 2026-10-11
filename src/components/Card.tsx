@@ -1,4 +1,4 @@
-import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons } from '../data/cagarBudaya';
+import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons, jenisCagarBudayaColors, jenisCagarBudayaIcons } from '../data/cagarBudaya';
 
 interface CardProps {
   item: CagarBudaya;
@@ -39,6 +39,9 @@ export default function Card({ item, onSelect }: CardProps) {
         <div className="absolute top-3 left-3 flex flex-col gap-1">
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${categoryColors[item.kategori] || 'bg-gray-100 text-gray-800'}`}>
             {item.kategori}
+          </span>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${jenisCagarBudayaColors[item.jenis]}`}>
+            {jenisCagarBudayaIcons[item.jenis]} {item.jenis}
           </span>
           <span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusPenetapanColors[item.statusPenetapan]}`}>
             {statusPenetapanIcons[item.statusPenetapan]} {item.statusPenetapan}

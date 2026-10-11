@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CagarBudaya } from './data/cagarBudaya';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Daftar from './components/Daftar';
@@ -10,16 +11,33 @@ import Statistik from './components/Statistik';
 import Galeri from './components/Galeri';
 import Berita from './components/Berita';
 import FAQ from './components/FAQ';
+import Login from './components/Login';
+import Register from './components/Register';
+import Dashboard from './components/Dashboard';
+import Profil from './components/Profil';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil';
 
-function App() {
+function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
   const [selectedItem, setSelectedItem] = useState<CagarBudaya | null>(null);
+  const { isLoggedIn } = useAuth();
 
   const handleNavigate = (page: string) => {
+    // Role-based access control
+    if (page === 'dashboard' && !isLoggedIn()) {
+      setCurrentPage('login');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (page === 'profil' && !isLoggedIn()) {
+      setCurrentPage('login');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setCurrentPage(page as Page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -117,8 +135,40 @@ function App() {
               </div>
             </section>
 
-            {/* Info Section */}
+            {/* Role Info Section */}
             <section className="py-16 bg-gray-50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-3">Sistem Manajemen User</h2>
+                  <p className="text-gray-600">4 level akses untuk pengelolaan yang terstruktur</p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { icon: '👑', role: 'Administrator', desc: 'Akses penuh: kelola user, konten, dan pengaturan sistem', color: 'border-red-200 bg-red-50' },
+                    { icon: '📋', role: 'Manager', desc: 'Kelola konten, approve artikel, dan lihat statistik', color: 'border-blue-200 bg-blue-50' },
+                    { icon: '👤', role: 'User Member', desc: 'Akses semua konten, bookmark, dan komentar', color: 'border-emerald-200 bg-emerald-50' },
+                    { icon: '🌐', role: 'User Publik', desc: 'Akses terbatas: lihat beranda dan daftar cagar budaya', color: 'border-gray-200 bg-gray-50' },
+                  ].map((item, index) => (
+                    <div key={index} className={`rounded-xl p-5 border ${item.color} hover:shadow-md transition-all`}>
+                      <span className="text-3xl block mb-3">{item.icon}</span>
+                      <h3 className="font-bold text-gray-800 mb-2">{item.role}</h3>
+                      <p className="text-sm text-gray-600">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="text-center mt-8">
+                  <button
+                    onClick={() => handleNavigate('register')}
+                    className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-lg transition-all"
+                  >
+                    Daftar Sekarang →
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            {/* Info Section */}
+            <section className="py-16 bg-white">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                   <div>
@@ -212,20 +262,39 @@ function App() {
         return <Berita />;
       case 'faq':
         return <FAQ />;
+      case 'login':
+        return <Login onNavigate={handleNavigate} onSwitchToRegister={() => setCurrentPage('register')} />;
+      case 'register':
+        return <Register onNavigate={handleNavigate} onSwitchToLogin={() => setCurrentPage('login')} />;
+      case 'dashboard':
+        return <Dashboard onNavigate={handleNavigate} />;
+      case 'profil':
+        return <Profil onNavigate={handleNavigate} />;
       default:
         return <Hero onNavigate={handleNavigate} />;
     }
   };
 
+  // Hide Navbar and Footer on login/register pages
+  const hideNav = currentPage === 'login' || currentPage === 'register';
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar currentPage={currentPage} onNavigate={handleNavigate} />
+      {!hideNav && <Navbar currentPage={currentPage} onNavigate={handleNavigate} />}
       <main className="flex-1">
         {renderPage()}
       </main>
-      <Footer onNavigate={handleNavigate} />
+      {!hideNav && <Footer onNavigate={handleNavigate} />}
       <ScrollToTop />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

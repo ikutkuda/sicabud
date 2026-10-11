@@ -1,0 +1,371 @@
+/**
+ * SICABA Admin Styles
+ */
+
+/* Dashboard */
+.sicaba-dashboard {
+    margin: 20px 0;
+}
+
+.sicaba-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.sicaba-stat-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.sicaba-stat-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #23282d;
+    font-weight: 600;
+}
+
+.sicaba-stat-card .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0073aa;
+    margin: 10px 0;
+}
+
+.sicaba-stat-card .stat-label {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Tables */
+.sicaba-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+}
+
+.sicaba-table thead {
+    background: #f1f1f1;
+}
+
+.sicaba-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.sicaba-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.sicaba-table tr:hover {
+    background: #f9f9f9;
+}
+
+/* Badges */
+.sicaba-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #e0e0e0;
+    color: #333;
+}
+
+.sicaba-badge-jenis {
+    background: #0073aa;
+    color: #fff;
+}
+
+.sicaba-badge-kategori {
+    background: #46b450;
+    color: #fff;
+}
+
+.sicaba-badge-status {
+    background: #ffb900;
+    color: #fff;
+}
+
+/* Status Colors */
+.sicaba-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sicaba-status-Terdaftar {
+    background: #0073aa;
+    color: #fff;
+}
+
+.sicaba-status-Lolos {
+    background: #46b450;
+    color: #fff;
+}
+
+.sicaba-status-Pengkajian {
+    background: #ffb900;
+    color: #fff;
+}
+
+.sicaba-status-Ditetapkan {
+    background: #00a0d2;
+    color: #fff;
+}
+
+.sicaba-status-Ditolak {
+    background: #dc3232;
+    color: #fff;
+}
+
+/* Buttons */
+.sicaba-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sicaba-btn-primary {
+    background: #0073aa;
+    color: #fff;
+}
+
+.sicaba-btn-primary:hover {
+    background: #005177;
+    color: #fff;
+}
+
+.sicaba-btn-secondary {
+    background: #f7f7f7;
+    color: #555;
+    border: 1px solid #ccc;
+}
+
+.sicaba-btn-secondary:hover {
+    background: #e8e8e8;
+}
+
+.sicaba-btn-danger {
+    background: #dc3232;
+    color: #fff;
+}
+
+.sicaba-btn-danger:hover {
+    background: #a02020;
+    color: #fff;
+}
+
+.sicaba-btn-small {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+/* Forms */
+.sicaba-form-group {
+    margin-bottom: 15px;
+}
+
+.sicaba-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.sicaba-form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.sicaba-form-control:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+.sicaba-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.sicaba-form-section {
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.sicaba-form-section legend {
+    font-size: 16px;
+    font-weight: 600;
+    color: #23282d;
+    padding: 0 10px;
+}
+
+/* Cards */
+.sicaba-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.sicaba-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    transform: translateY(-2px);
+}
+
+.sicaba-card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.sicaba-card-content {
+    padding: 15px;
+}
+
+.sicaba-card-title {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sicaba-card-title a {
+    color: #23282d;
+    text-decoration: none;
+}
+
+.sicaba-card-title a:hover {
+    color: #0073aa;
+}
+
+.sicaba-card-meta {
+    margin-bottom: 10px;
+}
+
+.sicaba-card-excerpt {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Grid */
+.sicaba-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.sicaba-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.sicaba-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.sicaba-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Notices */
+.sicaba-notice {
+    padding: 12px;
+    border-left: 4px solid #0073aa;
+    background: #fff;
+    margin: 15px 0;
+}
+
+.sicaba-notice-success {
+    border-left-color: #46b450;
+}
+
+.sicaba-notice-error {
+    border-left-color: #dc3232;
+}
+
+.sicaba-notice-warning {
+    border-left-color: #ffb900;
+}
+
+/* Pagination */
+.sicaba-pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sicaba-pagination .page-numbers {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #555;
+}
+
+.sicaba-pagination .page-numbers.current {
+    background: #0073aa;
+    color: #fff;
+    border-color: #0073aa;
+}
+
+.sicaba-pagination .page-numbers:hover {
+    background: #f0f0f0;
+}
+
+/* Empty State */
+.sicaba-empty {
+    text-align: center;
+    padding: 40px 20px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.sicaba-empty p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sicaba-grid-2,
+    .sicaba-grid-3,
+    .sicaba-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .sicaba-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .sicaba-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}

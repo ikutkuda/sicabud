@@ -21,6 +21,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { id: 'berita', label: 'Berita' },
     { id: 'daftar-odcb', label: 'ODCB' },
     { id: 'faq', label: 'FAQ' },
+    { id: 'database', label: 'Database' },
     { id: 'tentang', label: 'Tentang' },
   ];
 

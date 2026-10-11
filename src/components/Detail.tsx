@@ -1,4 +1,5 @@
-import { CagarBudaya } from '../data/cagarBudaya';
+import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons, statusPenetapanLabels } from '../data/cagarBudaya';
+import LampiranList from './LampiranList';
 
 interface DetailProps {
   item: CagarBudaya;
@@ -23,12 +24,8 @@ export default function Detail({ item, onBack }: DetailProps) {
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{item.nama}</h1>
           <div className="flex flex-wrap gap-2 mt-3">
             <span className="px-3 py-1 bg-white/20 rounded-full text-sm">{item.kategori}</span>
-            <span className={`px-3 py-1 rounded-full text-sm ${
-              item.status === 'Cagar Budaya Nasional' 
-                ? 'bg-amber-400 text-amber-900' 
-                : 'bg-white/20'
-            }`}>
-              {item.status}
+            <span className={`px-3 py-1 rounded-full text-sm border ${statusPenetapanColors[item.statusPenetapan]}`}>
+              {statusPenetapanIcons[item.statusPenetapan]} {statusPenetapanLabels[item.statusPenetapan]}
             </span>
           </div>
         </div>
@@ -44,6 +41,31 @@ export default function Detail({ item, onBack }: DetailProps) {
               <div className="text-center text-white">
                 <span className="text-7xl block mb-4">🏛️</span>
                 <p className="text-lg font-medium opacity-80">{item.nama}</p>
+              </div>
+            </div>
+
+            {/* Status Penetapan Card */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <span className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center mr-3 text-amber-600">🏷️</span>
+                Status Penetapan
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className={`p-4 rounded-lg border ${statusPenetapanColors[item.statusPenetapan]}`}>
+                  <div className="flex items-center mb-2">
+                    <span className="text-2xl mr-2">{statusPenetapanIcons[item.statusPenetapan]}</span>
+                    <div>
+                      <p className="text-xs opacity-75">Status Penetapan</p>
+                      <p className="font-bold">{statusPenetapanLabels[item.statusPenetapan]}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
+                  <p className="text-xs text-gray-500 mb-1">Nomor SK</p>
+                  <p className="font-medium text-gray-800 font-mono text-sm">{item.nomorSK || 'Belum tersedia'}</p>
+                  <p className="text-xs text-gray-500 mt-2 mb-1">Tanggal Penetapan</p>
+                  <p className="font-medium text-gray-800 text-sm">{item.tanggalPenetapan || 'Belum tersedia'}</p>
+                </div>
               </div>
             </div>
 
@@ -73,6 +95,9 @@ export default function Detail({ item, onBack }: DetailProps) {
               </h2>
               <p className="text-gray-600 leading-relaxed">{item.arsitektur}</p>
             </div>
+
+            {/* Lampiran */}
+            <LampiranList lampiran={item.lampiran} />
           </div>
 
           {/* Sidebar */}
@@ -117,6 +142,58 @@ export default function Detail({ item, onBack }: DetailProps) {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Status Penetapan Summary */}
+            <div className={`rounded-xl p-6 shadow-sm border ${statusPenetapanColors[item.statusPenetapan]}`}>
+              <h3 className="text-lg font-bold mb-3 flex items-center">
+                {statusPenetapanIcons[item.statusPenetapan]} Status Penetapan
+              </h3>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm">Tingkat</span>
+                  <span className="font-bold text-sm">{statusPenetapanLabels[item.statusPenetapan]}</span>
+                </div>
+                {item.nomorSK && (
+                  <div className="flex justify-between">
+                    <span className="text-sm">No. SK</span>
+                    <span className="font-bold text-sm font-mono">{item.nomorSK}</span>
+                  </div>
+                )}
+                {item.tanggalPenetapan && (
+                  <div className="flex justify-between">
+                    <span className="text-sm">Tanggal</span>
+                    <span className="font-bold text-sm">{item.tanggalPenetapan}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Lampiran Summary */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                <span className="mr-2">📎</span> Lampiran
+              </h3>
+              <div className="text-center py-4">
+                <span className="text-3xl block mb-2">📁</span>
+                <p className="text-2xl font-bold text-emerald-600">{item.lampiran.length}</p>
+                <p className="text-sm text-gray-500">Dokumen Terlampir</p>
+              </div>
+              {item.lampiran.length > 0 && (
+                <div className="mt-3 space-y-1">
+                  {item.lampiran.slice(0, 3).map(file => (
+                    <div key={file.id} className="flex items-center text-xs text-gray-600 p-2 bg-gray-50 rounded">
+                      <span className="mr-2">📄</span>
+                      <span className="truncate">{file.namaFile}</span>
+                    </div>
+                  ))}
+                  {item.lampiran.length > 3 && (
+                    <p className="text-xs text-gray-400 text-center mt-2">
+                      +{item.lampiran.length - 3} file lainnya
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Fasilitas */}

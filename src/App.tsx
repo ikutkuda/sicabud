@@ -15,10 +15,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import Profil from './components/Profil';
+import KelolaLampiran from './components/KelolaLampiran';
+import KelolaPenetapan from './components/KelolaPenetapan';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
@@ -33,6 +35,11 @@ function AppContent() {
       return;
     }
     if (page === 'profil' && !isLoggedIn()) {
+      setCurrentPage('login');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if ((page === 'kelola-lampiran' || page === 'kelola-penetapan') && !isLoggedIn()) {
       setCurrentPage('login');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -270,6 +277,10 @@ function AppContent() {
         return <Dashboard onNavigate={handleNavigate} />;
       case 'profil':
         return <Profil onNavigate={handleNavigate} />;
+      case 'kelola-lampiran':
+        return <KelolaLampiran onNavigate={handleNavigate} />;
+      case 'kelola-penetapan':
+        return <KelolaPenetapan onNavigate={handleNavigate} />;
       default:
         return <Hero onNavigate={handleNavigate} />;
     }

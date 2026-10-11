@@ -1,4 +1,4 @@
-import { CagarBudaya } from '../data/cagarBudaya';
+import { CagarBudaya, statusPenetapanColors, statusPenetapanIcons } from '../data/cagarBudaya';
 
 interface CardProps {
   item: CagarBudaya;
@@ -36,19 +36,20 @@ export default function Card({ item, onSelect }: CardProps) {
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-6xl opacity-80">{categoryIcons[item.kategori] || '🏛️'}</span>
         </div>
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${categoryColors[item.kategori] || 'bg-gray-100 text-gray-800'}`}>
             {item.kategori}
           </span>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusPenetapanColors[item.statusPenetapan]}`}>
+            {statusPenetapanIcons[item.statusPenetapan]} {item.statusPenetapan}
+          </span>
         </div>
         <div className="absolute bottom-3 right-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-            item.status === 'Cagar Budaya Nasional' 
-              ? 'bg-amber-400 text-amber-900' 
-              : 'bg-white/90 text-gray-700'
-          }`}>
-            {item.status === 'Cagar Budaya Nasional' ? '⭐ Nasional' : '📋 Daerah'}
-          </span>
+          {item.lampiran.length > 0 && (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-700">
+              📎 {item.lampiran.length} file
+            </span>
+          )}
         </div>
       </div>
 
@@ -65,7 +66,7 @@ export default function Card({ item, onSelect }: CardProps) {
         <p className="text-sm text-gray-600 mb-3 line-clamp-3">{item.deskripsi}</p>
         <div className="flex items-center justify-between">
           <span className="text-xs text-gray-400">
-            📅 Berdiri: {item.tahunBerdiri}
+            📅 {item.tahunBerdiri}
           </span>
           <span className="text-emerald-600 text-sm font-medium hover:text-emerald-700">
             Lihat Detail →

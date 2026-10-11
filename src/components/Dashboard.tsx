@@ -368,42 +368,67 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
           </div>
         )}
 
-        {/* Content Tab (Admin & Manager) */}
-        {activeTab === 'content' && canManageContent && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h2 className="text-lg font-bold text-gray-800 mb-4">Kelola Konten Cagar Budaya</h2>
-              <p className="text-gray-600 mb-6">
-                Kelola data cagar budaya, berita, dan konten lainnya yang tampil di aplikasi.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button
-                  onClick={() => onNavigate('daftar')}
-                  className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
-                >
-                  <span className="text-2xl block mb-2">🏛️</span>
-                  <h3 className="font-bold text-gray-800">Cagar Budaya</h3>
-                  <p className="text-sm text-gray-500 mt-1">Tambah, edit, hapus data cagar budaya</p>
-                </button>
-                <button
-                  onClick={() => onNavigate('berita')}
-                  className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
-                >
-                  <span className="text-2xl block mb-2">📰</span>
-                  <h3 className="font-bold text-gray-800">Berita & Artikel</h3>
-                  <p className="text-sm text-gray-500 mt-1">Kelola berita dan artikel terkini</p>
-                </button>
-                <button
-                  onClick={() => onNavigate('galeri')}
-                  className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
-                >
-                  <span className="text-2xl block mb-2">📸</span>
-                  <h3 className="font-bold text-gray-800">Galeri</h3>
-                  <p className="text-sm text-gray-500 mt-1">Kelola foto dan galeri cagar budaya</p>
-                </button>
-              </div>
-            </div>
+            {/* Content Tab (Admin & Manager) */}
+            {activeTab === 'content' && canManageContent && (
+              <div className="space-y-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                  <h2 className="text-lg font-bold text-gray-800 mb-4">Kelola Konten Cagar Budaya</h2>
+                  <p className="text-gray-600 mb-6">
+                    Kelola data cagar budaya, berita, dan konten lainnya yang tampil di aplikasi.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button
+                      onClick={() => onNavigate('daftar')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">🏛️</span>
+                      <h3 className="font-bold text-gray-800">Cagar Budaya</h3>
+                      <p className="text-sm text-gray-500 mt-1">Tambah, edit, hapus data cagar budaya</p>
+                    </button>
+                    <button
+                      onClick={() => onNavigate('berita')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">📰</span>
+                      <h3 className="font-bold text-gray-800">Berita & Artikel</h3>
+                      <p className="text-sm text-gray-500 mt-1">Kelola berita dan artikel terkini</p>
+                    </button>
+                    <button
+                      onClick={() => onNavigate('galeri')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">📸</span>
+                      <h3 className="font-bold text-gray-800">Galeri</h3>
+                      <p className="text-sm text-gray-500 mt-1">Kelola foto dan galeri cagar budaya</p>
+                    </button>
+                  </div>
+                </div>
 
+                {/* Kelola Lampiran */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                  <h2 className="text-lg font-bold text-gray-800 mb-4">Kelola Lampiran & Status Penetapan</h2>
+                  <p className="text-gray-600 mb-6">
+                    Upload dokumen SK, sertifikat, foto dokumentasi, dan kelola status penetapan cagar budaya.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      onClick={() => onNavigate('kelola-lampiran')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">📎</span>
+                      <h3 className="font-bold text-gray-800">Kelola Lampiran</h3>
+                      <p className="text-sm text-gray-500 mt-1">Upload SK, sertifikat, foto, peta</p>
+                    </button>
+                    <button
+                      onClick={() => onNavigate('kelola-penetapan')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">🏷️</span>
+                      <h3 className="font-bold text-gray-800">Status Penetapan</h3>
+                      <p className="text-sm text-gray-500 mt-1">Kelola tingkat: Kota, Provinsi, Nasional</p>
+                    </button>
+                  </div>
+                </div>
             {/* Quick Stats */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-bold text-gray-800 mb-4">Ringkasan Konten</h2>

@@ -1,5 +1,190 @@
-export default function App() {
+import { useState } from 'react';
+import { CagarBudaya } from './data/cagarBudaya';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Daftar from './components/Daftar';
+import Detail from './components/Detail';
+import Peta from './components/Peta';
+import Tentang from './components/Tentang';
+import Footer from './components/Footer';
+
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail';
+
+function App() {
+  const [currentPage, setCurrentPage] = useState<Page>('beranda');
+  const [selectedItem, setSelectedItem] = useState<CagarBudaya | null>(null);
+
+  const handleNavigate = (page: string) => {
+    setCurrentPage(page as Page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectItem = (item: CagarBudaya) => {
+    setSelectedItem(item);
+    setCurrentPage('detail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackFromDetail = () => {
+    setCurrentPage('daftar');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'beranda':
+        return (
+          <>
+            <Hero onNavigate={handleNavigate} />
+            {/* Featured Section */}
+            <section className="py-16 bg-gray-50">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-3">Cagar Budaya Unggulan</h2>
+                  <p className="text-gray-600 max-w-2xl mx-auto">
+                    Beberapa cagar budaya pilihan yang menjadi kebanggaan Kota Tasikmalaya
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: '🕌',
+                      title: 'Masjid Agung',
+                      desc: 'Masjid tertua di Kota Tasikmalaya dengan arsitektur tradisional Sunda yang memukau',
+                      color: 'from-blue-500 to-indigo-600'
+                    },
+                    {
+                      icon: '🗿',
+                      title: 'Situs Megalitikum',
+                      desc: 'Situs arkeologi dengan peninggalan batu megalitikum dari peradaban kuno',
+                      color: 'from-emerald-500 to-teal-600'
+                    },
+                    {
+                      icon: '🏠',
+                      title: 'Rumah Adat Sunda',
+                      desc: 'Arsitektur tradisional Sunda yang masih terjaga keasliannya hingga kini',
+                      color: 'from-amber-500 to-orange-600'
+                    }
+                  ].map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleNavigate('daftar')}
+                      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden"
+                    >
+                      <div className={`h-40 bg-gradient-to-br ${item.color} flex items-center justify-center`}>
+                        <span className="text-6xl">{item.icon}</span>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                        <p className="text-gray-600 text-sm">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Info Section */}
+            <section className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                      Mengapa Cagar Budaya Penting?
+                    </h2>
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      Cagar budaya merupakan warisan budaya yang memiliki nilai penting bagi sejarah, 
+                      ilmu pengetahuan, pendidikan, dan kebudayaan. Pelestarian cagar budaya merupakan 
+                      tanggung jawab bersama antara pemerintah dan masyarakat.
+                    </p>
+                    <div className="space-y-4">
+                      {[
+                        { icon: '📖', text: 'Memiliki nilai sejarah yang tinggi' },
+                        { icon: '🎓', text: 'Sebagai sarana pendidikan dan penelitian' },
+                        { icon: '🌍', text: 'Identitas dan jati diri bangsa' },
+                        { icon: '💰', text: 'Potensi pariwisata dan ekonomi kreatif' },
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center">
+                          <span className="text-xl mr-3">{item.icon}</span>
+                          <span className="text-gray-700">{item.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => handleNavigate('tentang')}
+                      className="mt-8 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors"
+                    >
+                      Pelajari Lebih Lanjut →
+                    </button>
+                  </div>
+                  <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-8 border border-emerald-100">
+                    <div className="text-center">
+                      <span className="text-6xl block mb-4">🏛️</span>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">UU No. 11 Tahun 2010</h3>
+                      <p className="text-gray-600 text-sm mb-4">
+                        "Cagar Budaya adalah warisan budaya bersifat kebendaan berupa Benda Cagar Budaya, 
+                        Bangunan Cagar Budaya, Struktur Cagar Budaya, Situs Cagar Budaya, dan Kawasan 
+                        Cagar Budaya di darat dan/atau di air yang perlu dilestarikan."
+                      </p>
+                      <span className="text-xs text-gray-400">— Pasal 1, UU No. 11 Tahun 2010 tentang Cagar Budaya</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-16 bg-gradient-to-r from-emerald-800 to-teal-800 text-white">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 className="text-3xl font-bold mb-4">Jelajahi Warisan Budaya Kita</h2>
+                <p className="text-emerald-100 mb-8 max-w-2xl mx-auto">
+                  Mari bersama-sama mengenal, mencintai, dan melestarikan cagar budaya 
+                  Kota Tasikmalaya untuk generasi mendatang.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button
+                    onClick={() => handleNavigate('daftar')}
+                    className="px-8 py-3 bg-amber-500 hover:bg-amber-400 text-emerald-900 font-bold rounded-lg shadow-lg transition-all"
+                  >
+                    Lihat Semua Cagar Budaya
+                  </button>
+                  <button
+                    onClick={() => handleNavigate('peta')}
+                    className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-bold rounded-lg transition-all"
+                  >
+                    Buka Peta Lokasi
+                  </button>
+                </div>
+              </div>
+            </section>
+          </>
+        );
+      case 'daftar':
+        return <Daftar onSelectItem={handleSelectItem} />;
+      case 'detail':
+        return selectedItem ? (
+          <Detail item={selectedItem} onBack={handleBackFromDetail} />
+        ) : (
+          <Daftar onSelectItem={handleSelectItem} />
+        );
+      case 'peta':
+        return <Peta onSelectItem={handleSelectItem} />;
+      case 'tentang':
+        return <Tentang />;
+      default:
+        return <Hero onNavigate={handleNavigate} />;
+    }
+  };
+
   return (
-    <div/>
+    <div className="min-h-screen flex flex-col">
+      <Navbar currentPage={currentPage} onNavigate={handleNavigate} />
+      <main className="flex-1">
+        {renderPage()}
+      </main>
+      <Footer />
+    </div>
   );
 }
+
+export default App;

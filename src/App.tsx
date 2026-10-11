@@ -19,7 +19,7 @@ import Profil from './components/Profil';
 import KelolaLampiran from './components/KelolaLampiran';
 import KelolaPenetapan from './components/KelolaPenetapan';
 import JenisCagarBudaya from './components/JenisCagarBudaya';
-import FormODCB from './components/FormODCB';
+import FormODCBResmi from './components/FormODCBResmi';
 import DaftarODCB from './components/DaftarODCB';
 import KelolaODCB from './components/KelolaODCB';
 import StatusPendaftaran from './components/StatusPendaftaran';
@@ -304,7 +304,7 @@ function AppContent() {
       case 'jenis-cagar-budaya':
         return <JenisCagarBudaya />;
       case 'form-odcb':
-        return <FormODCB onSubmit={handleODCBSubmit} onCancel={() => setCurrentPage('daftar-odcb')} />;
+        return <FormODCBResmi onSubmit={handleODCBSubmit} onCancel={() => setCurrentPage('daftar-odcb')} />;
       case 'daftar-odcb':
         return <DaftarODCB onNavigate={handleNavigate} onOpenForm={() => setCurrentPage('form-odcb')} />;
       case 'kelola-odcb':

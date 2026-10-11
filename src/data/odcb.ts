@@ -1,35 +1,112 @@
-export type StatusODCB = 'Diajukan' | 'Diperiksa' | 'Direvisi' | 'Ditolak' | 'Disetujui';
+export type StatusODCB = 'Terdaftar' | 'Lolos Verifikasi' | 'Tidak Lolos Verifikasi' | 'Pengkajian' | 'Direkomendasikan' | 'Ditetapkan' | 'Ditolak';
 export type JenisIdentitas = 'KTP' | 'SIM';
 
 // Jenis ODCB sesuai UU No. 11 Tahun 2010
 export type JenisODCB = 'Benda' | 'Bangunan' | 'Struktur' | 'Situs' | 'Kawasan';
 
+// Asal/Latar Belakang Pendaftar sesuai Permendikbudristek 36/2023
+export type AsalPendaftar = 
+  | 'Direktorat Jenderal Kebudayaan'
+  | 'Perwakilan RI di luar negeri'
+  | 'OPD Bidang Kebudayaan Provinsi'
+  | 'OPD Bidang Kebudayaan Kabupaten'
+  | 'OPD Bidang Kebudayaan Kota'
+  | 'Kementerian/Lembaga Negara'
+  | 'BUMN'
+  | 'BUMD'
+  | 'BUMDes'
+  | 'Badan Usaha Swasta'
+  | 'Masyarakat Hukum Adat'
+  | 'Pendaftar Umum';
+
+// Periode/Masa sesuai Permendikbudristek 36/2023
+export type PeriodeMasa = 
+  | 'Prasejarah'
+  | 'Klasik (Hindu-Buddha)'
+  | 'Islam'
+  | 'Kolonial'
+  | 'Kemerdekaan'
+  | 'Modern';
+
+// Kondisi ODCB sesuai Permendikbudristek 36/2023
+export type KondisiODCB = 'Utuh' | 'Tinggal Sebagian' | 'Musnah' | 'Hilang' | 'Berubah Wujud dan Gaya';
+
+// Status Kepemilikan
+export type StatusKepemilikan = 'Milik Pribadi' | 'Milik Negara' | 'Milik Daerah' | 'Milik Desa' | 'Milik Badan Usaha' | 'Milik Masyarakat Hukum Adat' | 'Tidak Diketahui';
+
+// Status Pengelolaan
+export type StatusPengelolaan = 'Dikelola Sendiri' | 'Dikelola Pemerintah' | 'Dikelola Badan Usaha' | 'Dikelola Masyarakat' | 'Tidak Dikelola';
+
 export interface ODCB {
   id: number;
-  // Data ODCB
+  nomorInduk?: string;
+  
+  // IDENTITAS ODCB
   namaODCB: string;
   jenisODCB: JenisODCB;
-  lokasi: string;
+  alamatODCB: string;
+  desaKelurahan: string;
   kecamatan: string;
-  deskripsi: string;
-  perkiraanUmur: string;
-  kondisi: string;
+  kabupatenKota: string;
+  provinsi: string;
   koordinat: { lat: number; lng: number } | null;
+  
+  // Data Teknis ODCB
+  ukuran?: {
+    panjang?: string;
+    lebar?: string;
+    tinggi?: string;
+    tebal?: string;
+    diameter?: string;
+    luas?: string;
+    volume?: string;
+  };
+  bahan?: string[];
+  hiasanOrnamen?: string[];
+  tahunPembuatan?: string;
+  periodeMasa?: PeriodeMasa;
+  batasUtara?: string;
+  batasTimur?: string;
+  batasSelatan?: string;
+  batasBarat?: string;
+  
+  // URAIAN ODCB
+  deskripsi: string;
+  sejarah: string;
+  kondisiSaatIni: KondisiODCB;
+  penjelasanKondisi?: string;
+  pemeliharaan: 'Terpelihara' | 'Tidak Terpelihara';
+  riwayatPemugaran: 'Pernah Dipugar' | 'Belum Pernah Dipugar';
+  narasiNilaiPenting?: string;
+  
+  // URGENSI PENETAPAN
+  latarBelakangUsulan?: string;
+  hasilVerifikasi?: string;
+  
+  // STATUS KEPEMILIKAN & PENGELOLAAN
+  statusKepemilikan: StatusKepemilikan;
+  statusPengelolaan: StatusPengelolaan;
+  riwayatKepemilikan?: string;
   
   // Data Pendaftar
   pendaftarId: number;
-  pendaftarNama: string;
-  pendaftarEmail: string;
-  pendaftarPhone: string;
-  pendaftarAlamat: string;
+  namaPendaftar: string;
+  nikPendaftar: string;
+  nomorTelepon: string;
+  nomorPonsel: string;
+  asalPendaftar: AsalPendaftar;
+  namaInstansi?: string;
+  emailPendaftar?: string;
+  alamatPendaftar?: string;
   
   // Identitas
   jenisIdentitas: JenisIdentitas;
   nomorIdentitas: string;
   fotoIdentitas: FileAttachment;
   
-  // Foto ODCB
+  // Dokumen Pendukung
   fotoODCB: FileAttachment[];
+  dokumenPendukung?: FileAttachment[];
   
   // Status
   status: StatusODCB;
@@ -47,6 +124,36 @@ export interface FileAttachment {
   tanggalUpload: string;
   deskripsi: string;
 }
+
+export const statusODCBLabels: Record<StatusODCB, string> = {
+  'Terdaftar': 'Terdaftar',
+  'Lolos Verifikasi': 'Lolos Verifikasi',
+  'Tidak Lolos Verifikasi': 'Tidak Lolos Verifikasi',
+  'Pengkajian': 'Sedang Pengkajian',
+  'Direkomendasikan': 'Direkomendasikan',
+  'Ditetapkan': 'Ditetapkan sebagai CB',
+  'Ditolak': 'Ditolak',
+};
+
+export const statusODCBColors: Record<StatusODCB, string> = {
+  'Terdaftar': 'bg-blue-100 text-blue-700 border-blue-300',
+  'Lolos Verifikasi': 'bg-cyan-100 text-cyan-700 border-cyan-300',
+  'Tidak Lolos Verifikasi': 'bg-gray-100 text-gray-700 border-gray-300',
+  'Pengkajian': 'bg-amber-100 text-amber-700 border-amber-300',
+  'Direkomendasikan': 'bg-purple-100 text-purple-700 border-purple-300',
+  'Ditetapkan': 'bg-green-100 text-green-700 border-green-300',
+  'Ditolak': 'bg-red-100 text-red-700 border-red-300',
+};
+
+export const statusODCBIcons: Record<StatusODCB, string> = {
+  'Terdaftar': '📝',
+  'Lolos Verifikasi': '✓',
+  'Tidak Lolos Verifikasi': '✗',
+  'Pengkajian': '🔍',
+  'Direkomendasikan': '📋',
+  'Ditetapkan': '✅',
+  'Ditolak': '❌',
+};
 
 // Master data Jenis ODCB sesuai UU No. 11 Tahun 2010
 export interface JenisODCBInfo {
@@ -117,250 +224,55 @@ export const jenisODCBColors: Record<JenisODCB, string> = {
   'Kawasan': 'bg-rose-100 text-rose-700 border-rose-300',
 };
 
-export const statusODCBLabels: Record<StatusODCB, string> = {
-  'Diajukan': 'Diajukan',
-  'Diperiksa': 'Sedang Diperiksa',
-  'Direvisi': 'Perlu Revisi',
-  'Ditolak': 'Ditolak',
-  'Disetujui': 'Disetujui',
-};
-
-export const statusODCBColors: Record<StatusODCB, string> = {
-  'Diajukan': 'bg-blue-100 text-blue-700 border-blue-300',
-  'Diperiksa': 'bg-amber-100 text-amber-700 border-amber-300',
-  'Direvisi': 'bg-orange-100 text-orange-700 border-orange-300',
-  'Ditolak': 'bg-red-100 text-red-700 border-red-300',
-  'Disetujui': 'bg-green-100 text-green-700 border-green-300',
-};
-
-export const statusODCBIcons: Record<StatusODCB, string> = {
-  'Diajukan': '📤',
-  'Diperiksa': '🔍',
-  'Direvisi': '✏️',
-  'Ditolak': '❌',
-  'Disetujui': '✅',
-};
-
-export const kondisiList = [
-  'Baik',
-  'Cukup Baik',
-  'Kurang Baik',
-  'Rusak Ringan',
-  'Rusak Berat'
+export const asalPendaftarList: AsalPendaftar[] = [
+  'Direktorat Jenderal Kebudayaan',
+  'Perwakilan RI di luar negeri',
+  'OPD Bidang Kebudayaan Provinsi',
+  'OPD Bidang Kebudayaan Kabupaten',
+  'OPD Bidang Kebudayaan Kota',
+  'Kementerian/Lembaga Negara',
+  'BUMN',
+  'BUMD',
+  'BUMDes',
+  'Badan Usaha Swasta',
+  'Masyarakat Hukum Adat',
+  'Pendaftar Umum'
 ];
 
-// Sample data
-export const odcbData: ODCB[] = [
-  {
-    id: 1,
-    namaODCB: 'Rumah Tua di Kampung Adat',
-    jenisODCB: 'Bangunan',
-    lokasi: 'Jl. Kampung Adat No. 15',
-    kecamatan: 'Cihideung',
-    deskripsi: 'Rumah tua peninggalan keluarga bangsawan yang masih terjaga keasliannya. Atap ijuk dan struktur kayu masih utuh.',
-    perkiraanUmur: '±150 tahun',
-    kondisi: 'Cukup Baik',
-    koordinat: { lat: -7.3285, lng: 108.2195 },
-    pendaftarId: 3,
-    pendaftarNama: 'Siti Nurhaliza',
-    pendaftarEmail: 'member@sicaba.go.id',
-    pendaftarPhone: '081234567892',
-    pendaftarAlamat: 'Jl. Merdeka No. 5, Tasikmalaya',
-    jenisIdentitas: 'KTP',
-    nomorIdentitas: '3206xxxxxxxxxxxx',
-    fotoIdentitas: {
-      id: 1,
-      namaFile: 'foto_ktp_siti.jpg',
-      tipe: 'jpg',
-      ukuran: '1.2 MB',
-      tanggalUpload: '2024-02-15',
-      deskripsi: 'Foto KTP pendaftar'
-    },
-    fotoODCB: [
-      {
-        id: 2,
-        namaFile: 'foto_depan_rumah.jpg',
-        tipe: 'jpg',
-        ukuran: '2.5 MB',
-        tanggalUpload: '2024-02-15',
-        deskripsi: 'Tampak depan rumah'
-      },
-      {
-        id: 3,
-        namaFile: 'foto_samping_rumah.jpg',
-        tipe: 'jpg',
-        ukuran: '2.3 MB',
-        tanggalUpload: '2024-02-15',
-        deskripsi: 'Tampak samping'
-      },
-      {
-        id: 4,
-        namaFile: 'foto_detail_ukiran.jpg',
-        tipe: 'jpg',
-        ukuran: '1.8 MB',
-        tanggalUpload: '2024-02-15',
-        deskripsi: 'Detail ukiran kayu'
-      }
-    ],
-    status: 'Diperiksa',
-    tanggalPengajuan: '2024-02-15',
-    tanggalUpdate: '2024-02-16',
-    catatanManager: 'Sedang dalam proses verifikasi lapangan',
-    reviewedBy: 'Budi Santoso'
-  },
-  {
-    id: 2,
-    namaODCB: 'Sumur Kuno di Desa Sukarasa',
-    jenisODCB: 'Struktur',
-    lokasi: 'Desa Sukarasa',
-    kecamatan: 'Sukaratu',
-    deskripsi: 'Sumur kuno yang diduga berasal dari masa kerajaan. Struktur batu dan mortar masih terlihat.',
-    perkiraanUmur: '±200 tahun',
-    kondisi: 'Kurang Baik',
-    koordinat: { lat: -7.3420, lng: 108.2380 },
-    pendaftarId: 4,
-    pendaftarNama: 'Ahmad Rizki',
-    pendaftarEmail: 'ahmad@email.com',
-    pendaftarPhone: '081234567893',
-    pendaftarAlamat: 'Jl. Veteran No. 8, Tasikmalaya',
-    jenisIdentitas: 'SIM',
-    nomorIdentitas: '3206xxxxxxxxxxxx',
-    fotoIdentitas: {
-      id: 5,
-      namaFile: 'foto_sim_ahmad.jpg',
-      tipe: 'jpg',
-      ukuran: '980 KB',
-      tanggalUpload: '2024-02-18',
-      deskripsi: 'Foto SIM pendaftar'
-    },
-    fotoODCB: [
-      {
-        id: 6,
-        namaFile: 'foto_sumur_utuh.jpg',
-        tipe: 'jpg',
-        ukuran: '3.1 MB',
-        tanggalUpload: '2024-02-18',
-        deskripsi: 'Kondisi sumur secara keseluruhan'
-      },
-      {
-        id: 7,
-        namaFile: 'foto_detail_batu.jpg',
-        tipe: 'jpg',
-        ukuran: '2.7 MB',
-        tanggalUpload: '2024-02-18',
-        deskripsi: 'Detail struktur batu'
-      }
-    ],
-    status: 'Direvisi',
-    tanggalPengajuan: '2024-02-18',
-    tanggalUpdate: '2024-02-20',
-    catatanManager: 'Mohon tambahkan foto dari sudut berbeda dan koordinat GPS yang lebih akurat',
-    reviewedBy: 'Budi Santoso'
-  },
-  {
-    id: 3,
-    namaODCB: 'Pohon Beringin Tua di Alun-alun',
-    jenisODCB: 'Benda',
-    lokasi: 'Alun-alun Kota Tasikmalaya',
-    kecamatan: 'Tawang',
-    deskripsi: 'Pohon beringin tua yang diperkirakan telah ada sejak masa kolonial. Menjadi simbol sejarah kota.',
-    perkiraanUmur: '±180 tahun',
-    kondisi: 'Baik',
-    koordinat: { lat: -7.3270, lng: 108.2210 },
-    pendaftarId: 7,
-    pendaftarNama: 'Pengunjung Umum',
-    pendaftarEmail: 'public@sicaba.go.id',
-    pendaftarPhone: '',
-    pendaftarAlamat: '',
-    jenisIdentitas: 'KTP',
-    nomorIdentitas: '3206xxxxxxxxxxxx',
-    fotoIdentitas: {
-      id: 8,
-      namaFile: 'foto_ktp_public.jpg',
-      tipe: 'jpg',
-      ukuran: '1.1 MB',
-      tanggalUpload: '2024-02-22',
-      deskripsi: 'Foto KTP pendaftar'
-    },
-    fotoODCB: [
-      {
-        id: 9,
-        namaFile: 'foto_pohon_beringin.jpg',
-        tipe: 'jpg',
-        ukuran: '4.2 MB',
-        tanggalUpload: '2024-02-22',
-        deskripsi: 'Pohon beringin secara keseluruhan'
-      }
-    ],
-    status: 'Ditolak',
-    tanggalPengajuan: '2024-02-22',
-    tanggalUpdate: '2024-02-24',
-    catatanManager: 'Objek tidak memenuhi kriteria cagar budaya menurut UU No. 11 Tahun 2010. Pohon tidak termasuk dalam kategori benda cagar budaya.',
-    reviewedBy: 'Rudi Hermawan'
-  },
-  {
-    id: 4,
-    namaODCB: 'Batu Prasasti di Perbukitan',
-    jenisODCB: 'Situs',
-    lokasi: 'Perbukitan Cipari',
-    kecamatan: 'Cigalon',
-    deskripsi: 'Batu dengan ukiran yang diduga merupakan prasasti kuno. Ditemukan oleh warga setempat.',
-    perkiraanUmur: '±500 tahun',
-    kondisi: 'Cukup Baik',
-    koordinat: { lat: -7.3750, lng: 108.2550 },
-    pendaftarId: 5,
-    pendaftarNama: 'Dewi Lestari',
-    pendaftarEmail: 'dewi@email.com',
-    pendaftarPhone: '081234567894',
-    pendaftarAlamat: 'Jl. Diponegoro No. 3, Tasikmalaya',
-    jenisIdentitas: 'KTP',
-    nomorIdentitas: '3206xxxxxxxxxxxx',
-    fotoIdentitas: {
-      id: 10,
-      namaFile: 'foto_ktp_dewi.jpg',
-      tipe: 'jpg',
-      ukuran: '1.3 MB',
-      tanggalUpload: '2024-02-25',
-      deskripsi: 'Foto KTP pendaftar'
-    },
-    fotoODCB: [
-      {
-        id: 11,
-        namaFile: 'foto_batu_prasasti.jpg',
-        tipe: 'jpg',
-        ukuran: '3.5 MB',
-        tanggalUpload: '2024-02-25',
-        deskripsi: 'Batu prasasti secara keseluruhan'
-      },
-      {
-        id: 12,
-        namaFile: 'foto_detail_ukiran.jpg',
-        tipe: 'jpg',
-        ukuran: '2.8 MB',
-        tanggalUpload: '2024-02-25',
-        deskripsi: 'Detail ukiran pada batu'
-      },
-      {
-        id: 13,
-        namaFile: 'foto_lokasi.jpg',
-        tipe: 'jpg',
-        ukuran: '2.1 MB',
-        tanggalUpload: '2024-02-25',
-        deskripsi: 'Kondisi lokasi sekitar'
-      },
-      {
-        id: 14,
-        namaFile: 'foto_sketsa.jpg',
-        tipe: 'jpg',
-        ukuran: '1.5 MB',
-        tanggalUpload: '2024-02-25',
-        deskripsi: 'Sketsa ukiran'
-      }
-    ],
-    status: 'Disetujui',
-    tanggalPengajuan: '2024-02-25',
-    tanggalUpdate: '2024-02-28',
-    catatanManager: 'Objek memenuhi kriteria dan akan diproses untuk ditetapkan sebagai cagar budaya tingkat kota.',
-    reviewedBy: 'Budi Santoso'
-  }
+export const periodeMasaList: PeriodeMasa[] = [
+  'Prasejarah',
+  'Klasik (Hindu-Buddha)',
+  'Islam',
+  'Kolonial',
+  'Kemerdekaan',
+  'Modern'
 ];
+
+export const kondisiODCBList: KondisiODCB[] = [
+  'Utuh',
+  'Tinggal Sebagian',
+  'Musnah',
+  'Hilang',
+  'Berubah Wujud dan Gaya'
+];
+
+export const statusKepemilikanList: StatusKepemilikan[] = [
+  'Milik Pribadi',
+  'Milik Negara',
+  'Milik Daerah',
+  'Milik Desa',
+  'Milik Badan Usaha',
+  'Milik Masyarakat Hukum Adat',
+  'Tidak Diketahui'
+];
+
+export const statusPengelolaanList: StatusPengelolaan[] = [
+  'Dikelola Sendiri',
+  'Dikelola Pemerintah',
+  'Dikelola Badan Usaha',
+  'Dikelola Masyarakat',
+  'Tidak Dikelola'
+];
+
+// Sample data kosong (akan diisi melalui form)
+export const odcbData: ODCB[] = [];

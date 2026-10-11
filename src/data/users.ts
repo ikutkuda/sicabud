@@ -98,6 +98,20 @@ export const defaultUsers: User[] = [
   },
   {
     id: 2,
+    nama: 'Agus Wirabudiman',
+    email: 'agus.wirabudiman@gmail.com',
+    password: 'admin2024',
+    role: 'admin',
+    avatar: '👑',
+    tanggalDaftar: '2024-01-01',
+    status: 'aktif',
+    statusAkun: 'approved',
+    lastLogin: '2024-01-15 09:00',
+    phone: '081234567890',
+    alamat: 'Tasikmalaya, Jawa Barat'
+  },
+  {
+    id: 3,
     nama: 'Budi Santoso',
     email: 'manager@sicaba.go.id',
     password: 'manager123',
@@ -121,7 +135,7 @@ export const defaultUsers: User[] = [
     verifiedBy: 'Admin SICABA'
   },
   {
-    id: 3,
+    id: 4,
     nama: 'Siti Nurhaliza',
     email: 'member@sicaba.go.id',
     password: 'member123',
@@ -145,7 +159,7 @@ export const defaultUsers: User[] = [
     verifiedBy: 'Admin SICABA'
   },
   {
-    id: 4,
+    id: 5,
     nama: 'Ahmad Rizki',
     email: 'ahmad@email.com',
     password: 'member123',
@@ -169,7 +183,7 @@ export const defaultUsers: User[] = [
     verifiedBy: 'Admin SICABA'
   },
   {
-    id: 5,
+    id: 6,
     nama: 'Dewi Lestari',
     email: 'dewi@email.com',
     password: 'member123',
@@ -191,7 +205,7 @@ export const defaultUsers: User[] = [
     },
   },
   {
-    id: 6,
+    id: 7,
     nama: 'Rudi Hermawan',
     email: 'rudi@email.com',
     password: 'manager123',
@@ -213,7 +227,7 @@ export const defaultUsers: User[] = [
     },
   },
   {
-    id: 7,
+    id: 8,
     nama: 'Pengunjung Umum',
     email: 'public@sicaba.go.id',
     password: 'public123',
@@ -227,7 +241,7 @@ export const defaultUsers: User[] = [
     alamat: ''
   },
   {
-    id: 8,
+    id: 9,
     nama: 'Hendra Wijaya',
     email: 'hendra@email.com',
     password: 'member123',

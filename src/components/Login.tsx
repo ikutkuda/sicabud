@@ -35,6 +35,7 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
 
   const demoAccounts = [
     { role: 'Admin', email: 'admin@sicaba.go.id', pass: 'admin123', icon: '👑', color: 'border-red-200 bg-red-50' },
+    { role: 'Admin', email: 'agus.wirabudiman@gmail.com', pass: 'admin2024', icon: '👑', color: 'border-red-200 bg-red-50' },
     { role: 'Manager', email: 'manager@sicaba.go.id', pass: 'manager123', icon: '📋', color: 'border-blue-200 bg-blue-50' },
     { role: 'Member', email: 'member@sicaba.go.id', pass: 'member123', icon: '👤', color: 'border-emerald-200 bg-emerald-50' },
     { role: 'Public', email: 'public@sicaba.go.id', pass: 'public123', icon: '🌐', color: 'border-gray-200 bg-gray-50' },

@@ -447,6 +447,7 @@ INSERT INTO kategori_cagar_budaya (nama_kategori, ikon, deskripsi) VALUES
 -- Untuk demo, password disimpan plain text. Di production gunakan bcrypt.
 INSERT INTO users (nama, email, password, role, avatar, phone, alamat, status, status_akun, tanggal_daftar, last_login) VALUES
 ('Admin SICABA', 'admin@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'admin', '👑', '081234567890', 'Jl. Ir. H. Juanda No. 1, Tasikmalaya', 'aktif', 'approved', '2024-01-01', '2024-01-15 08:30:00'),
+('Agus Wirabudiman', 'agus.wirabudiman@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'admin', '👑', '081234567890', 'Tasikmalaya, Jawa Barat', 'aktif', 'approved', '2024-01-01', '2024-01-15 09:00:00'),
 ('Budi Santoso', 'manager@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'manager', '📋', '081234567891', 'Jl. Sukapura No. 10, Tasikmalaya', 'aktif', 'approved', '2024-01-05', '2024-01-14 14:20:00'),
 ('Siti Nurhaliza', 'member@sicaba.go.id', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'member', '👤', '081234567892', 'Jl. Merdeka No. 5, Tasikmalaya', 'aktif', 'approved', '2024-01-10', '2024-01-13 09:15:00'),
 ('Ahmad Rizki', 'ahmad@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'member', '👤', '081234567893', 'Jl. Veteran No. 8, Tasikmalaya', 'aktif', 'approved', '2024-01-12', '2024-01-12 16:45:00'),
@@ -456,20 +457,20 @@ INSERT INTO users (nama, email, password, role, avatar, phone, alamat, status, s
 ('Hendra Wijaya', 'hendra@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2u', 'member', '👤', '081234567896', 'Jl. Samudra No. 7, Tasikmalaya', 'aktif', 'rejected', '2024-02-10', NULL);
 
 -- Update verified_by untuk user yang sudah disetujui
-UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-05' WHERE id = 2;
-UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-10' WHERE id = 3;
-UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-12' WHERE id = 4;
-UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-14' WHERE id = 7;
-UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-02-11', catatan_admin = 'Bukti transfer tidak jelas / blur. Mohon upload ulang.' WHERE id = 8;
+UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-05' WHERE id = 3;
+UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-10' WHERE id = 4;
+UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-12' WHERE id = 5;
+UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-01-14' WHERE id = 8;
+UPDATE users SET verified_by = 1, tanggal_verifikasi = '2024-02-11', catatan_admin = 'Bukti transfer tidak jelas / blur. Mohon upload ulang.' WHERE id = 9;
 
 -- Bukti Pembayaran
 INSERT INTO bukti_pembayaran (user_id, nama_file, path_file, tipe_file, ukuran_file, nominal, rekening_tujuan, tanggal_upload, status_verifikasi) VALUES
-(2, 'bukti_transfer_budi.jpg', '/uploads/bukti/budi.jpg', 'jpg', '1.5 MB', 110000.00, '445301021768537', '2024-01-04', 'valid'),
-(3, 'bukti_transfer_siti.jpg', '/uploads/bukti/siti.jpg', 'jpg', '1.2 MB', 110000.00, '445301021768537', '2024-01-09', 'valid'),
-(4, 'bukti_transfer_ahmad.jpg', '/uploads/bukti/ahmad.jpg', 'jpg', '980 KB', 110000.00, '445301021768537', '2024-01-11', 'valid'),
-(5, 'bukti_transfer_dewi.jpg', '/uploads/bukti/dewi.jpg', 'jpg', '1.1 MB', 110000.00, '445301021768537', '2024-01-08', 'pending'),
-(6, 'bukti_transfer_rudi.jpg', '/uploads/bukti/rudi.jpg', 'jpg', '1.3 MB', 110000.00, '445301021768537', '2024-01-03', 'pending'),
-(8, 'bukti_transfer_hendra.jpg', '/uploads/bukti/hendra.jpg', 'jpg', '890 KB', 110000.00, '445301021768537', '2024-02-10', 'invalid');
+(3, 'bukti_transfer_budi.jpg', '/uploads/bukti/budi.jpg', 'jpg', '1.5 MB', 110000.00, '445301021768537', '2024-01-04', 'valid'),
+(4, 'bukti_transfer_siti.jpg', '/uploads/bukti/siti.jpg', 'jpg', '1.2 MB', 110000.00, '445301021768537', '2024-01-09', 'valid'),
+(5, 'bukti_transfer_ahmad.jpg', '/uploads/bukti/ahmad.jpg', 'jpg', '980 KB', 110000.00, '445301021768537', '2024-01-11', 'valid'),
+(6, 'bukti_transfer_dewi.jpg', '/uploads/bukti/dewi.jpg', 'jpg', '1.1 MB', 110000.00, '445301021768537', '2024-01-08', 'pending'),
+(7, 'bukti_transfer_rudi.jpg', '/uploads/bukti/rudi.jpg', 'jpg', '1.3 MB', 110000.00, '445301021768537', '2024-01-03', 'pending'),
+(9, 'bukti_transfer_hendra.jpg', '/uploads/bukti/hendra.jpg', 'jpg', '890 KB', 110000.00, '445301021768537', '2024-02-10', 'invalid');
 
 -- Cagar Budaya (dengan jenis_id)
 -- jenis_id: 1=Benda, 2=Bangunan, 3=Struktur, 4=Situs, 5=Kawasan

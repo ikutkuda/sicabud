@@ -11,12 +11,14 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [errorType, setErrorType] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setErrorType('');
     setIsLoading(true);
 
     setTimeout(() => {
@@ -25,23 +27,41 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
         onNavigate('dashboard');
       } else {
         setError(result.message);
+        setErrorType(result.code || '');
       }
       setIsLoading(false);
     }, 800);
   };
 
   const demoAccounts = [
-    { role: 'Admin', email: 'admin@sicaba.go.id', pass: 'admin123', icon: '👑' },
-    { role: 'Manager', email: 'manager@sicaba.go.id', pass: 'manager123', icon: '📋' },
-    { role: 'Member', email: 'member@sicaba.go.id', pass: 'member123', icon: '👤' },
-    { role: 'Public', email: 'public@sicaba.go.id', pass: 'public123', icon: '🌐' },
+    { role: 'Admin', email: 'admin@sicaba.go.id', pass: 'admin123', icon: '👑', color: 'border-red-200 bg-red-50' },
+    { role: 'Manager', email: 'manager@sicaba.go.id', pass: 'manager123', icon: '📋', color: 'border-blue-200 bg-blue-50' },
+    { role: 'Member', email: 'member@sicaba.go.id', pass: 'member123', icon: '👤', color: 'border-emerald-200 bg-emerald-50' },
+    { role: 'Public', email: 'public@sicaba.go.id', pass: 'public123', icon: '🌐', color: 'border-gray-200 bg-gray-50' },
   ];
+
+  const getErrorIcon = () => {
+    switch (errorType) {
+      case 'PENDING_APPROVAL': return '⏳';
+      case 'REJECTED': return '❌';
+      case 'ACCOUNT_DISABLED': return '⛔';
+      default: return '⚠️';
+    }
+  };
+
+  const getErrorColor = () => {
+    switch (errorType) {
+      case 'PENDING_APPROVAL': return 'bg-amber-50 border-amber-200 text-amber-700';
+      case 'REJECTED': return 'bg-red-50 border-red-200 text-red-700';
+      default: return 'bg-red-50 border-red-200 text-red-700';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Logo */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-2xl mb-4 shadow-lg">
             <span className="text-3xl">🏛️</span>
           </div>
@@ -52,9 +72,27 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
         {/* Form */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700 text-sm">
-              <span className="mr-2">⚠️</span>
-              {error}
+            <div className={`mb-4 p-3 border rounded-lg flex items-start text-sm ${getErrorColor()}`}>
+              <span className="mr-2 text-lg">{getErrorIcon()}</span>
+              <div className="flex-1">
+                <p>{error}</p>
+                {errorType === 'PENDING_APPROVAL' && (
+                  <button
+                    onClick={() => onNavigate('status-pendaftaran')}
+                    className="mt-2 text-xs font-bold underline hover:no-underline"
+                  >
+                    → Lihat Status Pendaftaran
+                  </button>
+                )}
+                {errorType === 'REJECTED' && (
+                  <button
+                    onClick={onSwitchToRegister}
+                    className="mt-2 text-xs font-bold underline hover:no-underline"
+                  >
+                    → Daftar Ulang
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
@@ -67,7 +105,7 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                   placeholder="nama@email.com"
                   required
                 />
@@ -82,7 +120,7 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                  className="w-full pl-10 pr-12 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                   placeholder="••••••••"
                   required
                 />
@@ -94,16 +132,6 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
                   {showPassword ? '🙈' : '👁️'}
                 </button>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input type="checkbox" className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500" />
-                <span className="ml-2 text-sm text-gray-600">Ingat saya</span>
-              </label>
-              <a href="#" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
-                Lupa password?
-              </a>
             </div>
 
             <button
@@ -145,7 +173,7 @@ export default function Login({ onNavigate, onSwitchToRegister }: LoginProps) {
               <button
                 key={acc.role}
                 onClick={() => { setEmail(acc.email); setPassword(acc.pass); }}
-                className="flex items-center p-2.5 rounded-lg border border-gray-100 hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                className={`flex items-center p-2.5 rounded-lg border ${acc.color} hover:shadow-sm transition-all text-left`}
               >
                 <span className="text-lg mr-2">{acc.icon}</span>
                 <div>

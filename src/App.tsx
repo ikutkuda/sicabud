@@ -21,10 +21,12 @@ import KelolaPenetapan from './components/KelolaPenetapan';
 import FormODCB from './components/FormODCB';
 import DaftarODCB from './components/DaftarODCB';
 import KelolaODCB from './components/KelolaODCB';
+import StatusPendaftaran from './components/StatusPendaftaran';
+import VerifikasiPembayaran from './components/VerifikasiPembayaran';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan' | 'form-odcb' | 'daftar-odcb' | 'kelola-odcb';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan' | 'form-odcb' | 'daftar-odcb' | 'kelola-odcb' | 'status-pendaftaran' | 'verifikasi-pembayaran';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
@@ -303,6 +305,10 @@ function AppContent() {
         return <DaftarODCB onNavigate={handleNavigate} onOpenForm={() => setCurrentPage('form-odcb')} />;
       case 'kelola-odcb':
         return <KelolaODCB onNavigate={handleNavigate} />;
+      case 'status-pendaftaran':
+        return <StatusPendaftaran onNavigate={handleNavigate} />;
+      case 'verifikasi-pembayaran':
+        return <VerifikasiPembayaran onNavigate={handleNavigate} />;
       default:
         return <Hero onNavigate={handleNavigate} />;
     }

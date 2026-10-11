@@ -455,6 +455,30 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     </button>
                   </div>
                 </div>
+
+                {/* Verifikasi Pembayaran (Admin only) */}
+                {isAdmin() && (
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl shadow-sm border border-amber-200 p-6">
+                    <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                      <span className="mr-2">💰</span> Verifikasi Pembayaran
+                    </h2>
+                    <p className="text-gray-600 mb-6">
+                      Verifikasi bukti pembayaran pendaftaran user baru (Manager & Member).
+                    </p>
+                    <button
+                      onClick={() => onNavigate('verifikasi-pembayaran')}
+                      className="w-full p-4 bg-white border border-amber-200 rounded-xl hover:border-amber-400 hover:bg-amber-50 transition-all text-left"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-bold text-gray-800">Buka Panel Verifikasi</h3>
+                          <p className="text-sm text-gray-500 mt-1">Setujui/tolak pendaftaran user baru</p>
+                        </div>
+                        <span className="text-2xl">→</span>
+                      </div>
+                    </button>
+                  </div>
+                )}
             {/* Quick Stats */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-bold text-gray-800 mb-4">Ringkasan Konten</h2>

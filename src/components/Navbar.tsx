@@ -67,12 +67,16 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-600 transition-colors"
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+                    currentUser.statusAkun === 'pending' ? 'bg-amber-600 hover:bg-amber-500 animate-pulse' : 'bg-emerald-700 hover:bg-emerald-600'
+                  }`}
                 >
                   <span className="text-lg">{currentUser.avatar}</span>
                   <div className="text-left">
                     <p className="text-xs font-medium leading-tight">{currentUser.nama}</p>
-                    <p className="text-xs text-emerald-300 leading-tight">{roleLabels[currentUser.role]}</p>
+                    <p className="text-xs leading-tight opacity-80">
+                      {currentUser.statusAkun === 'pending' ? '⏳ Menunggu Verifikasi' : roleLabels[currentUser.role]}
+                    </p>
                   </div>
                   <svg className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -90,6 +94,14 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
                       </span>
                     </div>
                     <div className="py-1">
+                      {currentUser.statusAkun === 'pending' && (
+                        <button
+                          onClick={() => { onNavigate('status-pendaftaran'); setShowUserMenu(false); }}
+                          className="w-full flex items-center px-4 py-2 text-sm text-amber-700 hover:bg-amber-50 font-medium"
+                        >
+                          <span className="mr-3">⏳</span> Status Pendaftaran
+                        </button>
+                      )}
                       <button
                         onClick={() => { onNavigate('dashboard'); setShowUserMenu(false); }}
                         className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"

@@ -429,6 +429,32 @@ export default function Dashboard({ onNavigate }: DashboardProps) {
                     </button>
                   </div>
                 </div>
+
+                {/* Kelola ODCB */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                  <h2 className="text-lg font-bold text-gray-800 mb-4">Kelola Pendaftaran ODCB</h2>
+                  <p className="text-gray-600 mb-6">
+                    Review dan kelola pendaftaran Objek Diduga Cagar Budaya dari masyarakat.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      onClick={() => onNavigate('kelola-odcb')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">📋</span>
+                      <h3 className="font-bold text-gray-800">Review ODCB</h3>
+                      <p className="text-sm text-gray-500 mt-1">Periksa dan update status pendaftaran</p>
+                    </button>
+                    <button
+                      onClick={() => onNavigate('daftar-odcb')}
+                      className="p-4 border border-gray-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all text-left"
+                    >
+                      <span className="text-2xl block mb-2">📝</span>
+                      <h3 className="font-bold text-gray-800">Daftar ODCB Saya</h3>
+                      <p className="text-sm text-gray-500 mt-1">Lihat pendaftaran ODCB Anda</p>
+                    </button>
+                  </div>
+                </div>
             {/* Quick Stats */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-bold text-gray-800 mb-4">Ringkasan Konten</h2>

@@ -19,6 +19,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { id: 'galeri', label: 'Galeri' },
     { id: 'statistik', label: 'Statistik' },
     { id: 'berita', label: 'Berita' },
+    { id: 'daftar-odcb', label: 'ODCB' },
     { id: 'faq', label: 'FAQ' },
     { id: 'tentang', label: 'Tentang' },
   ];

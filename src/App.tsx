@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CagarBudaya } from './data/cagarBudaya';
+import { ODCB } from './data/odcb';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -17,10 +18,13 @@ import Dashboard from './components/Dashboard';
 import Profil from './components/Profil';
 import KelolaLampiran from './components/KelolaLampiran';
 import KelolaPenetapan from './components/KelolaPenetapan';
+import FormODCB from './components/FormODCB';
+import DaftarODCB from './components/DaftarODCB';
+import KelolaODCB from './components/KelolaODCB';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan';
+type Page = 'beranda' | 'daftar' | 'peta' | 'tentang' | 'detail' | 'statistik' | 'galeri' | 'berita' | 'faq' | 'login' | 'register' | 'dashboard' | 'profil' | 'kelola-lampiran' | 'kelola-penetapan' | 'form-odcb' | 'daftar-odcb' | 'kelola-odcb';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('beranda');
@@ -39,7 +43,12 @@ function AppContent() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    if ((page === 'kelola-lampiran' || page === 'kelola-penetapan') && !isLoggedIn()) {
+    if ((page === 'kelola-lampiran' || page === 'kelola-penetapan' || page === 'kelola-odcb') && !isLoggedIn()) {
+      setCurrentPage('login');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if ((page === 'daftar-odcb' || page === 'form-odcb') && !isLoggedIn()) {
       setCurrentPage('login');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -57,6 +66,13 @@ function AppContent() {
 
   const handleBackFromDetail = () => {
     setCurrentPage('daftar');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleODCBSubmit = (data: ODCB) => {
+    // In a real app, this would save to backend
+    alert('Pendaftaran ODCB berhasil diajukan! Tim kami akan segera mereview pendaftaran Anda.');
+    setCurrentPage('daftar-odcb');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -281,6 +297,12 @@ function AppContent() {
         return <KelolaLampiran onNavigate={handleNavigate} />;
       case 'kelola-penetapan':
         return <KelolaPenetapan onNavigate={handleNavigate} />;
+      case 'form-odcb':
+        return <FormODCB onSubmit={handleODCBSubmit} onCancel={() => setCurrentPage('daftar-odcb')} />;
+      case 'daftar-odcb':
+        return <DaftarODCB onNavigate={handleNavigate} onOpenForm={() => setCurrentPage('form-odcb')} />;
+      case 'kelola-odcb':
+        return <KelolaODCB onNavigate={handleNavigate} />;
       default:
         return <Hero onNavigate={handleNavigate} />;
     }
